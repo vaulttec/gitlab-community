@@ -88,7 +88,7 @@ public class TopicController {
   public String getTopic(Model model, @PathVariable("topicPath") String topicPath, HttpServletRequest request) {
     Topic topic = service.getTopic(topicPath);
     model.addAttribute("topic", topic);
-    model.addAttribute("isTopicMember", service.isTopicMember(topic, request.getUserPrincipal().getName()));
+    model.addAttribute("isTopicMember", service.isTopicMember(topicPath, request.getUserPrincipal().getName()));
     model.addAttribute("memberCount", service.getTopicMembers(topic).size());
     model.addAttribute("teamUrl", service.getCommunity().getTeam().getUrl());
     return "topic";
@@ -107,7 +107,7 @@ public class TopicController {
       HttpServletRequest request) {
     if (!request.isUserInRole("ROLE_ADMIN")) {
       model.addAttribute("errorMessage", "You're not authorized");
-      model.addAttribute("isTopicMember", service.isTopicMember(topic, request.getUserPrincipal().getName()));
+      model.addAttribute("isTopicMember", service.isTopicMember(topicPath, request.getUserPrincipal().getName()));
       return "topic";
     }
     topic = service.updateTopic(topicPath, topic.getName(), topic.getDescription());

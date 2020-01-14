@@ -226,8 +226,8 @@ public class CommunityService {
     return removed;
   }
 
-  public boolean isTopicMember(final Topic topic, final String username) {
-    final Set<Member> members = communityRepository.getTopicMembers().get(topic.getPath());
+  public boolean isTopicMember(String topicPath, String username) {
+    Set<Member> members = communityRepository.getTopicMembers().get(topicPath);
     if (members != null) {
       return members.stream().filter(member -> member.getUsername().equals(username)).findFirst().isPresent();
     }

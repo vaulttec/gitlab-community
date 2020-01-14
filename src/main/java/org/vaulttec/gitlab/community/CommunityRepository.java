@@ -179,6 +179,8 @@ public class CommunityRepository {
 
   private Topic newTopic(GLGroup group, MMChannel channel) {
     Topic topic = new Topic(group, channel);
+
+    // Remove GitLab group description postfix from topic description
     int descriptionPostfixIndex = topic.getDescription().indexOf(GROUP_DESCRIPTION_POSTFIX);
     if (descriptionPostfixIndex >= 0) {
       topic.setDescription(topic.getDescription().substring(0, descriptionPostfixIndex));
