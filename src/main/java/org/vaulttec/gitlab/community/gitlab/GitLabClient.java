@@ -90,10 +90,10 @@ public class GitLabClient extends AbstractRestClient {
     return makeReadApiCall(apiCall, HttpMethod.GET, RESPONSE_TYPE_GROUP, uriVariables);
   }
 
-  public List<GLGroup> getSubGroups(String groupPath) {
-    LOG.debug("Retrieving subgroups for group {}", groupPath);
-    String apiCall = "/groups/{groupPath}/subgroups?with_custom_attributes=true";
-    Map<String, String> uriVariables = createUriVariables("groupPath", groupPath);
+  public List<GLGroup> getSubGroups(String groupId) {
+    LOG.debug("Retrieving subgroups for group {}", groupId);
+    String apiCall = "/groups/{groupId}/subgroups?with_custom_attributes=true";
+    Map<String, String> uriVariables = createUriVariables("groupId", groupId);
     return makeReadListApiCall(apiCall, HttpMethod.GET, RESPONSE_TYPE_GROUPS, uriVariables);
   }
 
