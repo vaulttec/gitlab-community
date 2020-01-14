@@ -88,7 +88,7 @@ public class TopicController {
   public String getTopic(Model model, @PathVariable("topicPath") String topicPath, HttpServletRequest request) {
     Topic topic = service.getTopic(topicPath);
     model.addAttribute("topic", topic);
-    model.addAttribute("isTopicMember", service.isTopicMember(topicPath, request.getUserPrincipal().getName()));
+    model.addAttribute("isTopicMember", service.isTopicMember(topic, request.getUserPrincipal().getName()));
     model.addAttribute("memberCount", service.getTopicMembers(topic).size());
     model.addAttribute("teamUrl", service.getCommunity().getTeam().getUrl());
     return "topic";
@@ -103,20 +103,17 @@ public class TopicController {
   }
 
   @PostMapping("/topics/{topicPath}")
-  public String updateTopic(Model model, @PathVariable("topicPath") String topicPath, Topic topic, BindingResult result,
-      HttpServletRequest request) {
+  public RedirectView updateTopic(RedirectAttributes attributes, @PathVariable("topicPath") String topicPath,
+      Topic topic, HttpServletRequest request) {
     if (!request.isUserInRole("ROLE_ADMIN")) {
-      model.addAttribute("errorMessage", "You're not authorized");
-      model.addAttribute("isTopicMember", service.isTopicMember(topicPath, request.getUserPrincipal().getName()));
-      return "topic";
+      attributes.addFlashAttribute("errorMessage", "You're not authorized");
+    } else {
+      topic = service.updateTopic(topicPath, topic.getName(), topic.getDescription());
+      if (topic == null) {
+        attributes.addFlashAttribute("errorMessage", "Topic update failed");
+      }
     }
-    topic = service.updateTopic(topicPath, topic.getName(), topic.getDescription());
-    if (topic == null) {
-      model.addAttribute("create", false);
-      model.addAttribute("errorMessage", "Topic update failed");
-      return "topic-edit";
-    }
-    return "redirect:topic";
+    return new RedirectView("/topics/" + topicPath);
   }
 
   @PostMapping("/topics/{topicPath}/join")
