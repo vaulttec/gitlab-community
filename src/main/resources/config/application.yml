@@ -21,7 +21,6 @@ spring:
             authorization-grant-type: authorization_code
             scope:
               - openid
-              - profile
             redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
             provider: gitlab
         provider:
