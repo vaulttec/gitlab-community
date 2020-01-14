@@ -116,7 +116,7 @@ public class TopicController {
       model.addAttribute("errorMessage", "Topic update failed");
       return "topic-edit";
     }
-    return "topic";
+    return "redirect:topic";
   }
 
   @PostMapping("/topics/{topicPath}/join")
