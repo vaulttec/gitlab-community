@@ -78,7 +78,7 @@ public class MattermostClient extends AbstractRestClient {
     LOG.debug("Retrieving user with id '{}'", userId);
     String apiCall = "/users/{userId}";
     Map<String, String> uriVariables = createUriVariables("userId", userId);
-    return makeReadApiCall(apiCall, HttpMethod.GET, RESPONSE_TYPE_USER, uriVariables);
+    return makeReadApiCall(apiCall, HttpMethod.GET, RESPONSE_TYPE_USER, uriVariables, HttpStatus.NOT_FOUND);
   }
 
   public MMUser getUserByUsername(String username) {
@@ -88,7 +88,7 @@ public class MattermostClient extends AbstractRestClient {
     LOG.debug("Retrieving user with username '{}'", username);
     String apiCall = "/users/username/{username}";
     Map<String, String> uriVariables = createUriVariables("username", username);
-    return makeReadApiCall(apiCall, HttpMethod.GET, RESPONSE_TYPE_USER, uriVariables);
+    return makeReadApiCall(apiCall, HttpMethod.GET, RESPONSE_TYPE_USER, uriVariables, HttpStatus.NOT_FOUND);
   }
 
   public List<MMUser> getUsersByUsernames(Collection<String> usernames) {
@@ -188,7 +188,7 @@ public class MattermostClient extends AbstractRestClient {
     LOG.debug("Retrieving channel '{}' for team '{}'", name, team.getName());
     String apiCall = "/teams/{teamId}/channels/name/{name}?include_deleted=true";
     Map<String, String> uriVariables = createUriVariables("teamId", team.getId(), "name", name);
-    return makeReadApiCall(apiCall, HttpMethod.GET, RESPONSE_TYPE_TEAM_CHANNEL, uriVariables);
+    return makeReadApiCall(apiCall, HttpMethod.GET, RESPONSE_TYPE_TEAM_CHANNEL, uriVariables, HttpStatus.NOT_FOUND);
   }
 
   public List<MMChannel> getChannelsByIds(MMTeam team, List<String> channelIds) {
