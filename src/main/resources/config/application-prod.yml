@@ -22,7 +22,7 @@ proxy:
 
 community:
   group-path: ${COMMUNITY_GROUP_PATH}
-  admin-usernames: ${COMMUNITY_USERNAMES}
+  admin-usernames: ${COMMUNITY_ADMIN_USERNAMES}
 
 gitlab:
   server-url: ${GITLAB_SERVER_URL}
