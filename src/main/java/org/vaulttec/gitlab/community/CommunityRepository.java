@@ -128,19 +128,11 @@ public class CommunityRepository {
     if (groups != null) {
       groups.forEach(group -> {
         MMChannel channel = mattermostClient.getChannelByName(community.getTeam(), group.getPath());
-        Topic topic = new Topic(group, channel);
-        removeDescriptionPostfix(topic);
+        Topic topic = newTopic(group, channel);
         topics.put(topic.getPath(), topic);
       });
     }
     return topics;
-  }
-
-  private void removeDescriptionPostfix(Topic topic) {
-    int descriptionPostfixIndex = topic.getDescription().indexOf(GROUP_DESCRIPTION_POSTFIX);
-    if (descriptionPostfixIndex >= 0) {
-      topic.setDescription(topic.getDescription().substring(0, descriptionPostfixIndex));
-    }
   }
 
   public Topic createTopic(String path, String name, String description) {
@@ -180,9 +172,18 @@ public class CommunityRepository {
             channel.getId());
         group.addCustomAttribute(GLGroup.CUSTOM_ATTRIBUTE_MATTERMOST_CHANNEL, channel.getId());
       }
-      return new Topic(group, channel);
+      return newTopic(group, channel);
     }
     return null;
+  }
+
+  private Topic newTopic(GLGroup group, MMChannel channel) {
+    Topic topic = new Topic(group, channel);
+    int descriptionPostfixIndex = topic.getDescription().indexOf(GROUP_DESCRIPTION_POSTFIX);
+    if (descriptionPostfixIndex >= 0) {
+      topic.setDescription(topic.getDescription().substring(0, descriptionPostfixIndex));
+    }
+    return topic;
   }
 
   public Topic updateTopic(Topic topic, String path, String name, String description) {
@@ -204,9 +205,7 @@ public class CommunityRepository {
       if (channel != null) {
         mattermostClient.updateChannel(channel, path, name, purpose, descriptionWithTopicUri);
       }
-      topic = new Topic(group, channel);
-      removeDescriptionPostfix(topic);
-      return topic;
+      return newTopic(group, channel);
     }
     return null;
   }
