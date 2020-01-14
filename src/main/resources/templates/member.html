@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/default}">
+<head>
+<title>Member</title>
+</head>
+<body>
+	<div layout:fragment="content" th:unless="${member} == null">
+
+		<div th:if="${errorMessage}"
+			class="alert alert-danger alert-dismissible fade show">
+			<span th:text="${errorMessage}"></span>
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12" th:object="${member}">
+				<div class="card">
+					<div class="card-body text-center">
+						<img class="avatar rounded-circle"
+							th:src="*{avatar} ? @{*{avatar}}: @{/img/no-avatar.png}"
+							alt="avatar" />
+						<h4 th:text="*{name}" class="card-title">Name</h4>
+						<h6 class="card-subtitle mb-2 text-muted">
+							<a th:href="*{profile}" th:text="|@*{username}|"></a> <span>&middot;</span>
+							<span th:if="*{joined}"
+								th:text="|Member since ${#temporals.format(member.joined, 'dd. MMM yyyy')}"></span>
+							<span>&middot;</span> <a th:href="|mailto:*{email}|"
+								th:text="|*{email}|"></a>
+						</h6>
+						<div class="mt-4">
+							<a th:if="${topicCount > 0}"
+								th:href="@{/members/{username}/topics(username=*{username})}"
+								class="btn btn-primary" th:text="|Topics (${topicCount})|">Topics</a>
+							<a
+								th:unless="${#authentication.name == member.username} or ${#authorization.expression('hasRole(''ROLE_GUEST'')')}"
+								th:href="@{{teamUrl}/messages/@{username}(teamUrl=${teamUrl}, username=*{username})}"
+								class="btn btn-info">Chat</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

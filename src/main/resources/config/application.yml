@@ -1,0 +1,60 @@
+spring:
+  application:
+    name: gitlab-report
+  main:
+    banner-mode: "off"
+  data:
+    web:
+      pageable:
+        default-page-size: 20
+        max-page-size: 100
+        one-indexed-parameters: false  # 0-based page number indexes
+  messages:    basename: messages
+  security:
+    oauth2:
+      client:
+        registration:
+          community:
+            client-id:
+            client-secret:
+            client-name: GitLab
+            authorization-grant-type: authorization_code
+            scope:
+              - openid
+              - profile
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+            provider: gitlab
+        provider:
+          gitlab:
+            authorization-uri: ${gitlab.server-url}/oauth/authorize
+            token-uri: ${gitlab.server-url}/oauth/token
+            user-info-uri: ${gitlab.server-url}/oauth/userinfo
+            jwk-set-uri: ${gitlab.server-url}/oauth/discovery/keys
+            user-name-attribute: nickname
+
+logging:
+  file:
+    max-history: 10
+  level:
+    org.springframework: info
+    org.vaulttec: info
+
+proxy:
+  host:
+  port: 3128
+
+community:
+  refresh-rate: 300000   # every 5 minutes
+  group-path:
+  topic-permission: DEVELOPER
+  admin-usernames:
+
+gitlab:
+  server-url:
+  personal-access-token:
+  per-page: 100
+
+mattermost:
+  server-url:
+  personal-access-token:
+  per-page: 100

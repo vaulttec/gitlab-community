@@ -1,0 +1,26 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          community:
+            client-id: edc0728dafb25b8181d8eaee92b4d67d1e94ef509f9795212ddc3d03ed2aa48a
+            client-secret: 2f2ef39d370385e6884357a04ac0d900dddb921ad2c58a1dfc86637b6a34ce87
+
+logging:
+  level:
+    org.springframework: info
+    org.vaulttec: debug
+
+community:
+  group-path: test
+  admin-usernames: cadmin1, tjuerge
+
+gitlab:
+  server-url: http://torstens-macbook-pro.local:8083
+  personal-access-token: d9FPuic1fFd-gzNvpmw4
+
+mattermost:
+  server-url: http://torstens-macbook-pro.local:8084
+  personal-access-token: s5y6uwooi7nm8eq6jhm5fteszw
+  

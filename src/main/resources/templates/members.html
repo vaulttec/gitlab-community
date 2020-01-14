@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/default}">
+<head>
+<title>Members</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<h2
+			th:text="${topic != null} ? |Members of ${topic.name}| : 'Members'"
+			class="mb-4">Members</h2>
+
+    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show">
+      <span th:text="${errorMessage}"></span>
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+
+		<table class="table table-hover table-bordered">
+			<thead class="thead-dark">
+				<tr>
+					<th th:text="#{title.username}" />
+					<th th:text="#{title.name}" />
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="member : ${membersPage.content}" th:object="${member}">
+					<td><a th:href="@{/members/{username}(username=*{username})}"
+						th:text="*{username}"></a></td>
+					<td th:text="*{name}" />
+				</tr>
+			</tbody>
+		</table>
+		<div
+			th:replace="fragments/pagination :: pagination(${membersPage}, ${topic != null} ? |/topics/${topic.path}/members| : '/members', ${10})"></div>
+
+		<div th:if="${topic != null}" class="mt-4">
+			<a th:href="@{/topics/{path}(path=${topic.path})}"
+				class="btn btn-primary">Topic</a>
+		</div>
+	</div>
+</body>
+</html>

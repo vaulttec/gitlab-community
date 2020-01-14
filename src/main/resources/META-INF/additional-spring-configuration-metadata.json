@@ -1,0 +1,62 @@
+{"properties": [
+  {
+    "name": "proxy.host",
+    "type": "java.lang.String",
+    "description": "Internet proxy host name"
+  },
+  {
+    "name": "proxy.port",
+    "type": "java.lang.Integer",
+    "description": "Internet proxy port"
+  },
+  {
+    "name": "gitlab.server-url",
+    "type": "java.lang.String",
+    "description": "URL of GitLab server"
+  },
+  {
+    "name": "gitlab.personal-access-token",
+    "type": "java.lang.String",
+    "description": "Personal access token of user with admin permission in GitLab"
+  },
+  {
+    "name": "gitlab.per-page",
+    "type": "java.lang.Integer",
+    "description": "Number of entries per response from GitLab"
+  },
+  {
+    "name": "community.refresh-rate",
+    "type": "java.lang.String",
+    "description": "A description for 'community.refresh-rate'"
+  },
+  {
+    "name": "community.group-path",
+    "type": "java.lang.String",
+    "description": "A description for 'community.group-path'"
+  },
+  {
+    "name": "community.topic-permission",
+    "type": "java.lang.String",
+    "description": "A description for 'community.topic-permission'"
+  },
+  {
+    "name": "community.admin-usernames",
+    "type": "java.lang.String",
+    "description": "A description for 'community.admin-usernames'"
+  },
+  {
+    "name": "mattermost.server-url",
+    "type": "java.lang.String",
+    "description": "URL of Mattermost server"
+  },
+  {
+    "name": "mattermost.per-page",
+    "type": "java.lang.String",
+    "description": "A description for 'mattermost.per-page'"
+  },
+  {
+    "name": "mattermost.personal-access-token",
+    "type": "java.lang.String",
+    "description": "A description for 'mattermost.personal-access-token'"
+  }
+]}

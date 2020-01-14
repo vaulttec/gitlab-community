@@ -1,0 +1,33 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          community:
+            client-id: ${OAUTH2_CLIENT_ID}
+            client-secret: ${OAUTH2_CLIENT_SECRET}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - health
+        - info
+        - auditevents
+
+proxy:
+  host: ${HTTP_PROXY_HOST}
+  port: ${HTTP_PROXY_PORT}
+
+community:
+  group-path: ${COMMUNITY_GROUP_PATH}
+  admin-usernames: ${COMMUNITY_USERNAMES}
+
+gitlab:
+  server-url: ${GITLAB_SERVER_URL}
+  personal-access-token: ${GITLAB_PERSONAL_ACCESS_TOKEN}
+
+mattermost:
+  serverUrl: ${MATTERMOST_SERVER_URL}
+  personalAccessToken: ${MATTERMOST_PERSONAL_ACCESS_TOKEN}

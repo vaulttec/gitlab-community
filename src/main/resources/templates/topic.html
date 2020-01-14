@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/default}">
+<head>
+<title>Topic</title>
+</head>
+<body>
+	<div layout:fragment="content" th:unless="${topic} == null">
+
+		<div th:if="${errorMessage}"
+			class="alert alert-danger alert-dismissible fade show">
+			<span th:text="${errorMessage}"></span>
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12" th:object="${topic}">
+				<form
+					th:action="@{/topics/{path}/{action}(path=*{path}, action=${isTopicMember} ? 'leave' : 'join')}"
+					method="post">
+					<div class="card">
+						<div class="card-body text-center">
+							<img class="avatar rounded-circle"
+								th:src="*{avatar} ? @{*{avatar}}: @{/img/no-avatar.png}"
+								alt="avatar" />
+							<h4 th:text="*{name}" class="card-title">Name</h4>
+							<h6 class="card-subtitle mb-2 text-muted">
+								<a th:href="*{profile}" th:text="|@*{path}|"></a> <span>&middot;</span>
+								<span th:if="*{createAt}"
+									th:text="|Created at ${#dates.format(topic.createAt, 'dd. MMM yyyy')}"></span>
+							</h6>
+							<p th:text="*{description}" class="card-text">Text</p>
+							<div class="mt-4">
+								<input
+									th:if="${!#authorization.expression('hasRole(''ROLE_GUEST'')')}"
+									type="submit" class="btn btn-primary"
+									th:classappend="${isTopicMember} ? 'btn-danger' : 'btn-success'"
+									th:value="${isTopicMember} ? 'Leave' : 'Join'"> <a
+									th:if="${memberCount > 0}"
+									th:href="@{/topics/{path}/members(path=*{path})}"
+									class="btn btn-primary" th:text="|Members (${memberCount})|">Members</a>
+								<a
+									th:unless="${#authorization.expression('hasRole(''ROLE_GUEST'')')} or !${isTopicMember}"
+									th:href="@{{teamUrl}/channels/{path}(teamUrl=${teamUrl}, path=*{path})}"
+									th:text="|Messages (*{messageCount})|" class="btn btn-info">Messages</a>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+
+
+
+
+			<!--
+			<div class="col-md-12" th:object="${topic}">
+				<form
+					th:action="@{/topics/{path}/{action}(path=*{path}, action=${isTopicMember} ? 'leave' : 'join')}"
+					method="post">
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="path" class="col-form-label">Path</label> <input
+								type="text" th:field="*{path}" class="form-control" id="path"
+								placeholder="Path" disabled>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="name" class="col-form-label">Name</label> <input
+								type="text" th:field="*{name}" class="form-control" id="name"
+								placeholder="Name" disabled>
+						</div>
+						<div class="form-group col-md-12">
+							<label for="description" class="col-form-label">Description</label>
+							<textarea th:field="*{description}" class="form-control"
+								id="description" placeholder="Description" disabled></textarea>
+						</div>
+					</div>
+
+					<div class="btn-toolbar mt-4">
+						<div class="mr-2"
+							th:if="${!#authorization.expression('hasRole(''ROLE_GUEST'')')}">
+							<input type="submit" class="btn btn-primary"
+								th:classappend="${isTopicMember} ? 'btn-danger' : 'btn-success'"
+								th:value="${isTopicMember} ? 'Leave' : 'Join'">
+						</div>
+						<a th:if="${memberCount > 0}" th:href="@{/topics/{path}/members(path=*{path})}"
+							class="btn btn-primary" th:text="|Members (${memberCount})|">Members</a>
+					</div>
+				</form>
+			</div>
+-->
+		</div>
+	</div>
+</body>
+</html>
