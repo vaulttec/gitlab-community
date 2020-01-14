@@ -43,12 +43,6 @@ public class Topic {
   public Topic() {
   }
 
-  public Topic(String path, String name, String description) {
-    this.path = path;
-    this.name = name;
-    this.description = description;
-  }
-
   public Topic(GLGroup group, MMChannel channel) {
     this.path = group.getPath();
     this.name = group.getName();
