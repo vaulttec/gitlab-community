@@ -164,6 +164,7 @@ public class CommunityService {
     Topic topic = communityRepository.createTopic(path, name, description);
     if (topic != null) {
       communityRepository.getTopics().put(topic.getPath(), topic);
+      communityRepository.getTopicMembers().put(topic.getPath(), new HashSet<Member>());
     }
     return topic;
   }
@@ -184,6 +185,7 @@ public class CommunityService {
     boolean deleted = communityRepository.deleteTopic(topic);
     if (deleted) {
       communityRepository.getTopics().remove(topic.getPath());
+      communityRepository.getTopicMembers().remove(topic.getPath());
     }
     return deleted;
   }
