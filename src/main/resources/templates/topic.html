@@ -32,16 +32,23 @@
 								<span th:if="*{createAt}"
 									th:text="|Created at ${#dates.format(topic.createAt, 'dd. MMM yyyy')}"></span>
 							</h6>
-							<p th:text="*{description}" class="card-text">Text</p>
+              <p th:text="*{description}" class="card-text">Text</p>
+              <hr>
+							<h6>
+              <span th:each="member, i : ${members}" th:object="${member}">
+                <a th:href="@{/members/{username}(username=*{username})}" th:text="*{name}"></a>
+                <span th:unless="${i.last}">&middot;</span>
+              </span>
+							</h6>
 							<div class="mt-4">
 								<input
 									th:if="${!#authorization.expression('hasRole(''ROLE_GUEST'')')}"
 									type="submit" class="btn btn-primary"
 									th:classappend="${isTopicMember} ? 'btn-danger' : 'btn-success'"
 									th:value="${isTopicMember} ? 'Leave' : 'Join'"> <a
-									th:if="${memberCount > 0}"
+									th:if="${members.size() > 0}"
 									th:href="@{/topics/{path}/members(path=*{path})}"
-									class="btn btn-primary" th:text="|Members (${memberCount})|">Members</a>
+									class="btn btn-primary" th:text="|Members (${members.size()})|">Members</a>
 								<a
 									th:unless="${#authorization.expression('hasRole(''ROLE_GUEST'')')} or !${isTopicMember}"
 									th:href="@{{teamUrl}/channels/{path}(teamUrl=${teamUrl}, path=*{path})}"

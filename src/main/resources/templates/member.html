@@ -28,13 +28,20 @@
 							<a th:href="*{profile}" th:text="|@*{username}|"></a> <span>&middot;</span>
 							<span th:if="*{joined}"
 								th:text="|Member since ${#temporals.format(member.joined, 'dd. MMM yyyy')}"></span>
-							<span>&middot;</span> <a th:href="|mailto:*{email}|"
-								th:text="|*{email}|"></a>
+							<span>&middot;</span>
+							<a th:href="|mailto:*{email}|" th:text="|*{email}|"></a>
+						</h6>
+						<hr>
+						<h6>
+						  <span th:each="topic, i : ${topics}" th:object="${topic}">
+						    <a th:href="@{/topics/{path}(path=*{path})}" th:text="*{name}"></a>
+						    <span th:unless="${i.last}">&middot;</span>
+						  </span>
 						</h6>
 						<div class="mt-4">
-							<a th:if="${topicCount > 0}"
+							<a th:if="${topics.size() > 0}"
 								th:href="@{/members/{username}/topics(username=*{username})}"
-								class="btn btn-primary" th:text="|Topics (${topicCount})|">Topics</a>
+								class="btn btn-primary" th:text="|Topics (${topics.size()})|">Topics</a>
 							<a
 								th:unless="${#authentication.name == member.username} or ${#authorization.expression('hasRole(''ROLE_GUEST'')')}"
 								th:href="@{{teamUrl}/messages/@{username}(teamUrl=${teamUrl}, username=*{username})}"

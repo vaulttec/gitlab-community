@@ -89,7 +89,7 @@ public class TopicController {
     Topic topic = service.getTopic(topicPath);
     model.addAttribute("topic", topic);
     model.addAttribute("isTopicMember", service.isTopicMember(topic, request.getUserPrincipal().getName()));
-    model.addAttribute("memberCount", service.getTopicMembers(topic).size());
+    model.addAttribute("members", service.getTopicMembers(topic));
     model.addAttribute("teamUrl", service.getCommunity().getTeam().getUrl());
     return "topic";
   }

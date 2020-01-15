@@ -51,7 +51,7 @@ public class MemberController {
   public String getMember(Model model, @PathVariable("username") String username) {
     Member member = service.getMember(username);
     model.addAttribute("member", member);
-    model.addAttribute("topicCount", service.getMemberTopics(member).size());
+    model.addAttribute("topics", service.getMemberTopics(member));
     model.addAttribute("teamUrl", service.getCommunity().getTeam().getUrl());
     return "member";
   }
