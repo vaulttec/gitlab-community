@@ -31,6 +31,7 @@
 							<span>&middot;</span>
 							<a th:href="|mailto:*{email}|" th:text="|*{email}|"></a>
 						</h6>
+						<p th:if="*{bio}" th:text="*{bio}" class="card-text">Bio</p>
 						<hr>
 						<h6>
 						  <span th:each="topic, i : ${topics}" th:object="${topic}">

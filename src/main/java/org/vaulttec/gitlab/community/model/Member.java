@@ -23,14 +23,15 @@ import java.time.LocalDate;
 import org.vaulttec.gitlab.community.gitlab.model.GLUser;
 
 public class Member {
-  private String username;
-  private String name;
-  private String email;
-  private String userId;
-  private URL avatar;
-  private URL profile;
-  private LocalDate joined;
-  private boolean isAdmin;
+  private final String username;
+  private final String name;
+  private final String email;
+  private final String userId;
+  private final URL avatar;
+  private final URL profile;
+  private final LocalDate joined;
+  private final String bio;
+  private final boolean isAdmin;
 
   public Member(GLUser user, boolean isAdmin) {
     this.userId = user.getId();
@@ -40,6 +41,7 @@ public class Member {
     this.avatar = user.getAvatar();
     this.profile = user.getProfile();
     this.joined = user.getJoined();
+    this.bio = user.getBio();
     this.isAdmin = isAdmin;
   }
 
@@ -65,6 +67,10 @@ public class Member {
 
   public URL getProfile() {
     return profile;
+  }
+
+  public String getBio() {
+    return bio;
   }
 
   public LocalDate getJoined() {

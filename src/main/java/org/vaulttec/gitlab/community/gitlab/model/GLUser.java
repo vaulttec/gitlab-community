@@ -43,6 +43,7 @@ public class GLUser {
   private URL avatar;
   @JsonAlias("web_url")
   private URL profile;
+  private String bio;
   private Map<String, String> customAttributes = new HashMap<String, String>();
 
   public String getId() {
@@ -91,6 +92,14 @@ public class GLUser {
 
   public void setProfile(URL profile) {
     this.profile = profile;
+  }
+
+  public String getBio() {
+    return bio;
+  }
+
+  public void setBio(String bio) {
+    this.bio = bio;
   }
 
   public void addCustomAttribute(String key, String value) {
@@ -149,6 +158,6 @@ public class GLUser {
   @Override
   public String toString() {
     return "GLUser [id=" + id + ", username=" + username + ", name=" + name + ", email=" + email + ", avatar=" + avatar
-        + ", profile=" + profile + ", customAttributes=" + customAttributes + "]";
+        + ", profile=" + profile + ", bio=" + bio + ", customAttributes=" + customAttributes + "]";
   }
 }

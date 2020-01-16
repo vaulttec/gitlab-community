@@ -32,7 +32,7 @@
 								<span th:if="*{createAt}"
 									th:text="|Created at ${#dates.format(topic.createAt, 'dd. MMM yyyy')}"></span>
 							</h6>
-              <p th:text="*{description}" class="card-text">Text</p>
+              <p th:text="*{description}" class="card-text">Description</p>
               <hr>
 							<h6>
               <span th:each="member, i : ${members}" th:object="${member}">
