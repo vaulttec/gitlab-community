@@ -32,6 +32,7 @@ public class CommunityConfig {
   private String groupPath;
   private GLPermission topicPermission;
   private List<String> adminUsernames;
+  private List<String> excludedUsernames;
 
   public String getGroupPath() {
     return groupPath;
@@ -47,6 +48,14 @@ public class CommunityConfig {
 
   public void setAdminUsernames(List<String> adminUsernames) {
     this.adminUsernames = adminUsernames;
+  }
+
+  public List<String> getExcludedUsernames() {
+    return excludedUsernames;
+  }
+
+  public void setExcludedUsernames(List<String> excludedUsernames) {
+    this.excludedUsernames = excludedUsernames;
   }
 
   public GLPermission getTopicPermission() {

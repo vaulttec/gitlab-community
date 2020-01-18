@@ -45,6 +45,11 @@
     "description": "A description for 'community.admin-usernames'"
   },
   {
+    "name": "community.excluded-usernames",
+    "type": "java.lang.String",
+    "description": "A description for 'community.excluded-usernames'"
+  },
+  {
     "name": "mattermost.server-url",
     "type": "java.lang.String",
     "description": "URL of Mattermost server"

@@ -49,6 +49,7 @@ community:
   group-path:
   topic-permission: DEVELOPER
   admin-usernames:
+  excluded-usernames: root, ghost, gladmin
 
 gitlab:
   server-url:

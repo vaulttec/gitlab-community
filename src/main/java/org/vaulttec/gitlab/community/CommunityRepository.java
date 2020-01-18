@@ -95,15 +95,17 @@ public class CommunityRepository {
     List<GLGroupMember> groupMembers = gitLabClient.getGroupMembers(community.getGroup().getId());
     if (groupMembers != null) {
       groupMembers.forEach(groupMember -> {
-        GLUser user = gitLabRepository.getUsers().get(groupMember.getUsername());
-        if (user != null) {
-          if (!user.hasCustomAttribute(GLUser.CUSTOM_ATTRIBUTE_JOINED)) {
-            String today = LocalDate.now().format(GLUser.JOINED_FORMATTER);
-            gitLabClient.setUserCustomAttribute(user.getId(), GLUser.CUSTOM_ATTRIBUTE_JOINED, today);
-            user.addCustomAttribute(GLUser.CUSTOM_ATTRIBUTE_JOINED, today);
+        if (!communityConfig.getExcludedUsernames().contains(groupMember.getUsername())) {
+          GLUser user = gitLabRepository.getUsers().get(groupMember.getUsername());
+          if (user != null) {
+            if (!user.hasCustomAttribute(GLUser.CUSTOM_ATTRIBUTE_JOINED)) {
+              String today = LocalDate.now().format(GLUser.JOINED_FORMATTER);
+              gitLabClient.setUserCustomAttribute(user.getId(), GLUser.CUSTOM_ATTRIBUTE_JOINED, today);
+              user.addCustomAttribute(GLUser.CUSTOM_ATTRIBUTE_JOINED, today);
+            }
+            members.put(user.getUsername(),
+                new Member(user, communityConfig.getAdminUsernames().contains(user.getUsername())));
           }
-          members.put(user.getUsername(),
-              new Member(user, communityConfig.getAdminUsernames().contains(user.getUsername())));
         }
       });
     }
@@ -245,9 +247,11 @@ public class CommunityRepository {
         List<GLGroupMember> groupMembers = gitLabClient.getGroupMembers(group.getId());
         if (groupMembers != null) {
           groupMembers.forEach(groupMember -> {
-            GLUser user = gitLabRepository.getUsers().get(groupMember.getUsername());
-            if (user != null && communityConfig.getTopicPermission().equals(groupMember.getPermission())) {
-              members.add(new Member(user, communityConfig.getAdminUsernames().contains(user.getUsername())));
+            if (!communityConfig.getExcludedUsernames().contains(groupMember.getUsername())) {
+              GLUser user = gitLabRepository.getUsers().get(groupMember.getUsername());
+              if (user != null && communityConfig.getTopicPermission().equals(groupMember.getPermission())) {
+                members.add(new Member(user, communityConfig.getAdminUsernames().contains(user.getUsername())));
+              }
             }
           });
         }
