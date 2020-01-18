@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.vaulttec.gitlab.community.gitlab.GitLabRepository;
 import org.vaulttec.gitlab.community.mattermost.MattermostClient;
@@ -36,6 +37,7 @@ import org.vaulttec.gitlab.community.mattermost.model.MMTeam;
 import org.vaulttec.gitlab.community.mattermost.model.MMUser;
 
 @Configuration
+@EnableScheduling
 public class CommunityRefresher {
   private static final Logger LOG = LoggerFactory.getLogger(CommunityRefresher.class);
 
