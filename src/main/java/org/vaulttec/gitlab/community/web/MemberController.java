@@ -68,7 +68,7 @@ public class MemberController {
       model.addAttribute("membersPage", membersPage);
       model.addAttribute("errorMessage", "Unknown topic - list all members");
     } else {
-      Page<Member> membersPage = service.getTopicMembersPaged(topic, pageable);
+      Page<Member> membersPage = service.getMembersForTopicPaged(topic, pageable);
       model.addAttribute("membersPage", membersPage);
     }
     return "members";

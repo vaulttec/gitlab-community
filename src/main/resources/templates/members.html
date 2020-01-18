@@ -20,22 +20,22 @@
 		<table class="table table-hover table-bordered">
 			<thead class="thead-dark">
 				<tr>
-					<th th:text="#{title.username}" />
-					<th th:text="#{title.name}" />
+					<th th:text="#{title.username}" class="col-2" />
+					<th th:text="#{title.name}" class="col-6" />
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="member : ${membersPage.content}" th:object="${member}">
-					<td><a th:href="@{/members/{username}(username=*{username})}"
+					<td class="col-2"><a th:href="@{/members/{username}(username=*{username})}"
 						th:text="*{username}"></a></td>
-					<td th:text="*{name}" />
+					<td th:text="*{name}" class="col-6" />
 				</tr>
 			</tbody>
 		</table>
 		<div
 			th:replace="fragments/pagination :: pagination(${membersPage}, ${topic != null} ? |/topics/${topic.path}/members| : '/members', ${10})"></div>
 
-		<div th:if="${topic != null}" class="mt-4">
+		<div th:if="${topic != null}" class="mt-4 text-center">
 			<a th:href="@{/topics/{path}(path=${topic.path})}"
 				class="btn btn-primary">Topic</a>
 		</div>

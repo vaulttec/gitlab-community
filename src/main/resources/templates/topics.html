@@ -8,41 +8,49 @@
 </head>
 <body>
 	<div layout:fragment="content">
-    <h2
-      th:text="${member != null} ? |Topics of ${member.name}| : 'Topics'"
-      class="mb-4">Topics</h2>
+		<h2
+			th:text="${isMemberTopics != null} ? |Topics of ${member.name}| : 'Topics'"
+			class="mb-4">Topics</h2>
 
-    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show">
-      <span th:text="${errorMessage}"></span>
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-    </div>
+		<div th:if="${errorMessage}"
+			class="alert alert-danger alert-dismissible fade show">
+			<span th:text="${errorMessage}"></span>
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
 
 		<table class="table table-hover table-bordered">
 			<thead class="thead-dark">
 				<tr>
-					<th th:text="#{title.path}" />
-					<th th:text="#{title.name}" />
-          <th th:text="#{title.messageCount}" />
-          <th th:text="#{title.lastPostAt}" />
+					<th th:text="#{title.name}" class="col-2" />
+					<th th:text="#{title.description}" class="col-8" />
+					<th th:text="#{title.members}" class="col-1" />
+					<th
+						th:unless="${isMemberTopics != null || #authorization.expression('hasRole(''ROLE_GUEST'')')}"
+						th:text="#{title.member}" class="col-1" />
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="topic : ${topicsPage.content}" th:object="${topic}">
-					<td><a th:href="@{/topics/{path}(path=*{path})}"
-						th:text="*{path}"></a></td>
-					<td th:text="*{name}" />
-          <td th:text="*{messageCount}" />
-          <td th:text="*{lastPostAt}" />
+					<td class="col-3"><a th:href="@{/topics/{path}(path=*{path})}"
+						th:text="*{name}">Name</a></td>
+					<td th:text="*{description}" class="col-8">Description</td>
+					<td class="col-1"><span
+						th:if="${topicMembers.get(topic.path)}"
+						th:text="${topicMembers.get(topic.path).size()}">5</span></td>
+					<td
+						th:unless="${isMemberTopics != null || #authorization.expression('hasRole(''ROLE_GUEST'')')}"
+						class="col-1"><span class="fa"
+						th:classappend="${topicMembers.get(topic.path).contains(member)}? fa-toggle-on : fa-toggle-off"></span></td>
 				</tr>
 			</tbody>
 		</table>
 		<div
 			th:replace="fragments/pagination :: pagination(${topicsPage}, ${member != null} ? |/members/${member.username}/topics| : '/topics', ${10})"></div>
 
-    <div th:if="${member != null}" class="mt-4">
-      <a th:href="@{/members/{username}(username=${member.username})}"
-        class="btn btn-primary">Member</a>
-    </div>
+		<div th:if="${isMemberTopics}" class="mt-4 text-center">
+			<a th:href="@{/members/{username}(username=${member.username})}"
+				class="btn btn-primary">Member</a>
+		</div>
 	</div>
 </body>
 </html>

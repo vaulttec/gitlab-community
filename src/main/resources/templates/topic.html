@@ -32,13 +32,13 @@
 								<span th:if="*{createAt}"
 									th:text="|Created ${#dates.format(topic.createAt, 'dd. MMM yyyy')}"></span>
 							</h6>
-              <p th:text="*{description}" class="card-text">Description</p>
-              <hr>
+							<p th:text="*{description}" class="card-text">Description</p>
+							<hr th:if="${members.size() > 0}">
 							<h6>
-              <span th:each="member, i : ${members}" th:object="${member}">
-                <a th:href="@{/members/{username}(username=*{username})}" th:text="*{name}"></a>
-                <span th:unless="${i.last}">&middot;</span>
-              </span>
+								<span th:each="member, i : ${members}" th:object="${member}">
+									<a th:href="@{/members/{username}(username=*{username})}"
+									th:text="*{name}"></a> <span th:unless="${i.last}">&middot;</span>
+								</span>
 							</h6>
 							<div class="mt-4">
 								<input
@@ -49,59 +49,20 @@
 									th:if="${members.size() > 0}"
 									th:href="@{/topics/{path}/members(path=*{path})}"
 									class="btn btn-primary" th:text="|Members (${members.size()})|">Members</a>
-							 <span
+								<span
 									th:unless="${#authorization.expression('hasRole(''ROLE_GUEST'')')} or !${isTopicMember}">
 									<a
 									th:href="@{{teamUrl}/channels/{path}(teamUrl=${teamUrl}, path=*{path})}"
 									th:text="|Messages (*{messageCount})|" class="btn btn-info">Messages</a>
-									<a th:href="|mailto:${#strings.listJoin(members.![email], ',')}|"
-                class="btn btn-info">Mail</a>
+									<a
+									th:href="|mailto:${#strings.listJoin(members.![email], ',')}|"
+									class="btn btn-info">Mail</a>
 								</span>
 							</div>
 						</div>
 					</div>
 				</form>
 			</div>
-
-
-
-
-			<!--
-			<div class="col-md-12" th:object="${topic}">
-				<form
-					th:action="@{/topics/{path}/{action}(path=*{path}, action=${isTopicMember} ? 'leave' : 'join')}"
-					method="post">
-					<div class="row">
-						<div class="form-group col-md-6">
-							<label for="path" class="col-form-label">Path</label> <input
-								type="text" th:field="*{path}" class="form-control" id="path"
-								placeholder="Path" disabled>
-						</div>
-						<div class="form-group col-md-6">
-							<label for="name" class="col-form-label">Name</label> <input
-								type="text" th:field="*{name}" class="form-control" id="name"
-								placeholder="Name" disabled>
-						</div>
-						<div class="form-group col-md-12">
-							<label for="description" class="col-form-label">Description</label>
-							<textarea th:field="*{description}" class="form-control"
-								id="description" placeholder="Description" disabled></textarea>
-						</div>
-					</div>
-
-					<div class="btn-toolbar mt-4">
-						<div class="mr-2"
-							th:if="${!#authorization.expression('hasRole(''ROLE_GUEST'')')}">
-							<input type="submit" class="btn btn-primary"
-								th:classappend="${isTopicMember} ? 'btn-danger' : 'btn-success'"
-								th:value="${isTopicMember} ? 'Leave' : 'Join'">
-						</div>
-						<a th:if="${memberCount > 0}" th:href="@{/topics/{path}/members(path=*{path})}"
-							class="btn btn-primary" th:text="|Members (${memberCount})|">Members</a>
-					</div>
-				</form>
-			</div>
--->
 		</div>
 	</div>
 </body>

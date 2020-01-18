@@ -190,12 +190,16 @@ public class CommunityService {
     return deleted;
   }
 
-  public Collection<Member> getTopicMembers(Topic topic) {
+  public Map<String, Set<Member>> getTopicMembers() {
+    return communityRepository.getTopicMembers();
+  }
+
+  public Collection<Member> getMembersForTopic(Topic topic) {
     return communityRepository.getTopicMembers().get(topic.getPath());
   }
 
-  public Page<Member> getTopicMembersPaged(Topic topic, Pageable pageable) {
-    return getPagedMembers(getTopicMembers(topic), pageable);
+  public Page<Member> getMembersForTopicPaged(Topic topic, Pageable pageable) {
+    return getPagedMembers(getMembersForTopic(topic), pageable);
   }
 
   public boolean addTopicMember(Topic topic, Member member) {

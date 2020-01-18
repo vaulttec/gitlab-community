@@ -75,12 +75,13 @@ public class TopicController {
   }
 
   @GetMapping("/topics")
-  public String getTopics(Model model, Pageable pageable) {
+  public String getTopics(Model model, Pageable pageable, HttpServletRequest request) {
     if (pageable.getSort().isUnsorted()) {
-      pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "path"));
+      pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "name"));
     }
-    Page<Topic> topicsPage = service.getTopicsPaged(pageable);
-    model.addAttribute("topicsPage", topicsPage);
+    model.addAttribute("member", service.getMember(request.getUserPrincipal().getName()));
+    model.addAttribute("topicsPage", service.getTopicsPaged(pageable));
+    model.addAttribute("topicMembers", service.getTopicMembers());
     return "topics";
   }
 
@@ -89,7 +90,7 @@ public class TopicController {
     Topic topic = service.getTopic(topicPath);
     model.addAttribute("topic", topic);
     model.addAttribute("isTopicMember", service.isTopicMember(topic, request.getUserPrincipal().getName()));
-    model.addAttribute("members", service.getTopicMembers(topic));
+    model.addAttribute("members", service.getMembersForTopic(topic));
     model.addAttribute("teamUrl", service.getCommunity().getTeam().getUrl());
     return "topic";
   }
@@ -159,6 +160,8 @@ public class TopicController {
       Page<Topic> topicsPage = service.getMemberTopicsPaged(member, pageable);
       model.addAttribute("topicsPage", topicsPage);
     }
+    model.addAttribute("topicMembers", service.getTopicMembers());
+    model.addAttribute("isMemberTopics", true);
     return "topics";
   }
 }
