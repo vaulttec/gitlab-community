@@ -22,15 +22,15 @@
 				<tr>
 					<th th:text="#{title.username}" class="col-2" />
 					<th th:text="#{title.name}" class="col-6" />
-          <th th:if="${memberTopics}" th:text="#{title.topics}" class="col-1" />
+          <th th:if="${memberTopics}" th:text="#{title.topics}" class="col-1 text-center" />
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="member : ${membersPage.content}" th:object="${member}">
 					<td class="col-2"><a th:href="@{/members/{username}(username=*{username})}"
 						th:text="*{username}"></a></td>
-					<td th:text="*{name}" class="col-6" />
-          <td th:if="${memberTopics}" class="col-1"><span
+					<td th:text="*{name}" class="col-8" />
+          <td th:if="${memberTopics}" class="col-1 text-center"><span
             th:text="${memberTopics.get(member.username).size()}">5</span></td>
 				</tr>
 			</tbody>
