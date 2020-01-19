@@ -17,8 +17,6 @@
  */
 package org.vaulttec.gitlab.community.web;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -26,10 +24,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class DefaultController {
 
   @GetMapping("/")
-  public String root(HttpServletRequest request) {
-    if (request.isUserInRole("ROLE_GUEST")) {
-      return "redirect:/topics";
-    }
-    return "redirect:/members/" + request.getUserPrincipal().getName();
+  public String home() {
+    return "redirect:/topics/";
   }
 }
