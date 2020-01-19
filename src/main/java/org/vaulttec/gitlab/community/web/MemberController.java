@@ -42,14 +42,15 @@ public class MemberController {
       pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
           Sort.by(Sort.Direction.ASC, "username"));
     }
-    Page<Member> membersPage = service.getMembersPaged(pageable);
-    model.addAttribute("membersPage", membersPage);
+    model.addAttribute("communityGroup", service.getCommunity().getGroup());
+    model.addAttribute("membersPage", service.getMembersPaged(pageable));
     model.addAttribute("memberTopics", service.getMemberTopics());
     return "members";
   }
 
   @GetMapping("/members/{username}")
   public String getMember(Model model, @PathVariable("username") String username) {
+    model.addAttribute("communityGroup", service.getCommunity().getGroup());
     Member member = service.getMember(username);
     model.addAttribute("member", member);
     model.addAttribute("topics", service.getTopicsForMember(member));
@@ -62,6 +63,7 @@ public class MemberController {
     if (pageable.getSort().isUnsorted()) {
       pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "path"));
     }
+    model.addAttribute("communityGroup", service.getCommunity().getGroup());
     Topic topic = service.getTopic(topicPath);
     model.addAttribute("topic", topic);
     if (topic == null) {

@@ -5,11 +5,27 @@
 <body>
 	<div th:fragment="navigation">
 		<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
-			<a class="navbar-brand"
-				th:href="${@environment.getProperty('gitlab.server-url')}"> <img
-				th:src="@{/img/gitlab-icon.png}" width="30" height="30"
-				alt="GitLab logo">
-			</a>
+			<div th:if="${communityGroup}" th:object="${communityGroup}">
+				<div sec:authorize="hasRole('ROLE_GUEST')">
+					<a class="navbar-brand"
+						th:href="${@environment.getProperty('gitlab.server-url')}"><img
+						th:src="@{/img/gitlab-icon.png}" height="30" alt="GitLab logo"><span
+						class="ml-2" th:text="*{name}">GitLab Community</span></a>
+				</div>
+				<div sec:authorize="!hasRole('ROLE_GUEST')">
+					<a class="navbar-brand" th:href="*{profile}"> <img
+						th:if="*{avatar}" th:src="*{avatar}" height="30"
+						alt="Group avatar"> <img th:unless="*{avatar}"
+						th:src="@{/img/gitlab-icon.png}" height="30" alt="GitLab logo">
+						<span class="ml-2" th:text="*{name}">GitLab Community</span></a>
+				</div>
+			</div>
+			<div th:unless="${communityGroup}">
+				<a class="navbar-brand"
+					th:href="${@environment.getProperty('gitlab.server-url')}"><img
+					th:src="@{/img/gitlab-icon.png}" height="30" alt="GitLab logo"><span
+					class="ml-2">GitLab Community</span></a>
+			</div>
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarCollapse">
@@ -29,11 +45,12 @@
 							data-toggle="dropdown"><i class="fa fa-cog"></i></a>
 						<div class="dropdown-menu dropdown-menu-right">
 							<a class="dropdown-item" th:href="@{/topics/new}"><i
-								class="fa fa-plus-circle"></i> Create new topic</a>
-						  <a class="dropdown-item" th:if="${create == null && topic != null && topic.path != null}"
-								th:href="@{/topics/{path}/edit(path=${topic.path})}">
-								<i class="fa fa-pencil-square-o"></i>
-								Edit current topic</a>
+								class="fa fa-plus-circle mr-1"></i>Create new topic</a> <a
+								class="dropdown-item"
+								th:if="${create == null && topic != null && topic.path != null}"
+								th:href="@{/topics/{path}/edit(path=${topic.path})}"> <i
+								class="fa fa-pencil-square-o mr-1"></i>Edit current topic
+							</a>
 						</div>
 					</div>
 
@@ -50,13 +67,14 @@
 						</a>
 						<form class="form-inline" th:action="@{/logout}" method="post">
 							<ul class="dropdown-menu dropdown-menu-right">
-								<li><a class="dropdown-item"
-									th:unless="${#authorization.expression('hasRole(''ROLE_GUEST'')')}"
+								<li sec:authorize="!hasRole('ROLE_GUEST')"><a
+									class="dropdown-item"
 									th:href="@{/members/{name}(name=${#authentication.name})}"><i
-										class="fa fa-user-o"></i> Profile</a></li>
-								<li class="divider dropdown-divider"></li>
+										class="fa fa-user-o mr-1"></i>Profile</a></li>
+								<li sec:authorize="!hasRole('ROLE_GUEST')"
+									class="divider dropdown-divider"></li>
 								<li><button class="dropdown-item btn" type="submit">
-										<i class="fa fa-power-off"></i> Logout
+										<i class="fa fa-power-off mr-1"></i>Logout
 									</button></li>
 							</ul>
 						</form>
