@@ -19,6 +19,7 @@ package org.vaulttec.gitlab.community;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -238,13 +239,21 @@ public class CommunityService {
     return false;
   }
 
-  public Collection<Topic> getMemberTopics(final Member member) {
-    final Map<String, Topic> topics = communityRepository.getTopics();
+  public Collection<Topic> getTopicsForMember(Member member) {
+    Map<String, Topic> topics = communityRepository.getTopics();
     return communityRepository.getTopicMembers().entrySet().stream().filter(entry -> entry.getValue().contains(member))
         .map(entry -> topics.get(entry.getKey())).collect(Collectors.toList());
   }
 
-  public Page<Topic> getMemberTopicsPaged(Member member, Pageable pageable) {
-    return getPagedTopics(getMemberTopics(member), pageable);
+  public Page<Topic> getTopicsForMemberPaged(Member member, Pageable pageable) {
+    return getPagedTopics(getTopicsForMember(member), pageable);
+  }
+
+  public Map<String, Collection<Topic>> getMemberTopics() {
+    Map<String, Collection<Topic>> memberTopics = new HashMap<String, Collection<Topic>>();
+    communityRepository.getMembers().values().forEach(member -> {
+      memberTopics.put(member.getUsername(), getTopicsForMember(member));
+    });
+    return memberTopics;
   }
 }

@@ -44,6 +44,7 @@ public class MemberController {
     }
     Page<Member> membersPage = service.getMembersPaged(pageable);
     model.addAttribute("membersPage", membersPage);
+    model.addAttribute("memberTopics", service.getMemberTopics());
     return "members";
   }
 
@@ -51,7 +52,7 @@ public class MemberController {
   public String getMember(Model model, @PathVariable("username") String username) {
     Member member = service.getMember(username);
     model.addAttribute("member", member);
-    model.addAttribute("topics", service.getMemberTopics(member));
+    model.addAttribute("topics", service.getTopicsForMember(member));
     model.addAttribute("teamUrl", service.getCommunity().getTeam().getUrl());
     return "member";
   }
@@ -71,6 +72,8 @@ public class MemberController {
       Page<Member> membersPage = service.getMembersForTopicPaged(topic, pageable);
       model.addAttribute("membersPage", membersPage);
     }
+    model.addAttribute("memberTopics", service.getMemberTopics());
+    model.addAttribute("isTopicMembers", true);
     return "members";
   }
 }
