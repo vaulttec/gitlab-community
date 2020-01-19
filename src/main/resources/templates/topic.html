@@ -23,38 +23,49 @@
 					method="post">
 					<div class="card">
 						<div class="card-body text-center">
-							<img class="avatar rounded-circle"
+							<img title="GitLab subgroup avatar" data-toggle="tooltip"
+								class="avatar rounded-circle"
 								th:src="*{avatar != null && !#authorization.expression('hasRole(''ROLE_GUEST'')')} ? @{*{avatar}}: @{/img/no-image.png}"
 								alt="avatar" />
-							<h4 th:text="*{name}" class="card-title">Name</h4>
+							<h4 title="Topic name" data-toggle="tooltip" th:text="*{name}"
+								class="card-title">Name</h4>
 							<h6 class="card-subtitle mb-2 text-muted">
-								<a th:href="*{profile}" th:text="|@*{path}|"></a> <span>&middot;</span>
-								<span th:if="*{createAt}"
+								<a title="Topic GitLab group" data-toggle="tooltip"
+									th:href="*{profile}" th:text="|@*{path}|"></a> <span>&middot;</span>
+								<span title="Topic creation date" data-toggle="tooltip"
+									th:if="*{createAt}"
 									th:text="|Created ${#dates.format(topic.createAt, 'dd. MMM yyyy')}"></span>
 							</h6>
-							<p th:text="*{description}" class="card-text">Description</p>
+							<p title="Topic description" data-toggle="tooltip"
+								th:text="*{description}" class="card-text">Description</p>
 							<hr th:if="${members.size() > 0}">
 							<h6>
 								<span th:each="member, i : ${members}" th:object="${member}">
-									<a th:href="@{/members/{username}(username=*{username})}"
+									<a title="Topic member profile" data-toggle="tooltip"
+									th:href="@{/members/{username}(username=*{username})}"
 									th:text="*{name}"></a> <span th:unless="${i.last}">&middot;</span>
 								</span>
 							</h6>
 							<div class="mt-4">
 								<input
+									th:title="${isTopicMember} ? 'Leave this topic' : 'Join this topic'"
+									data-toggle="tooltip"
 									th:if="${!#authorization.expression('hasRole(''ROLE_GUEST'')')}"
 									type="submit" class="btn btn-primary"
 									th:classappend="${isTopicMember} ? 'btn-danger' : 'btn-success'"
 									th:value="${isTopicMember} ? 'Leave' : 'Join'"> <a
+									title="Topic members" data-toggle="tooltip"
 									th:if="${members.size() > 0}"
 									th:href="@{/topics/{path}/members(path=*{path})}"
 									class="btn btn-primary" th:text="|Members (${members.size()})|">Members</a>
 								<span
 									th:unless="${#authorization.expression('hasRole(''ROLE_GUEST'')')} or !${isTopicMember}">
-									<a
+									<a title="Topic Mattermost private channel"
+									data-toggle="tooltip"
 									th:href="@{{teamUrl}/channels/{path}(teamUrl=${teamUrl}, path=*{path})}"
 									th:text="|Messages (*{messageCount})|" class="btn btn-info">Messages</a>
-									<a
+									<a title="Create mail  for all topic members"
+									data-toggle="tooltip"
 									th:href="|mailto:${#strings.listJoin(members.![email], ',')}|"
 									class="btn btn-info">Mail</a>
 								</span>

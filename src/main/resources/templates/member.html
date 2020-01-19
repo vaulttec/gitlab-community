@@ -20,33 +20,42 @@
 			<div class="col-md-12" th:object="${member}">
 				<div class="card">
 					<div class="card-body text-center">
-						<img class="avatar rounded-circle"
+						<img title="GitLab user avatar" data-toggle="tooltip"
+							class="avatar rounded-circle"
 							th:src="*{avatar} ? @{*{avatar}}: @{/img/no-avatar.png}"
 							alt="avatar" />
-						<h4 th:text="*{name}" class="card-title">Name</h4>
+						<h4 title="Full name" data-toggle="tooltip" th:text="*{name}"
+							class="card-title">Name</h4>
 						<h6 class="card-subtitle mb-2 text-muted">
-							<a th:href="*{profile}" th:text="|@*{username}|"></a> <span>&middot;</span>
-							<span th:if="*{joined}"
+							<a title="GitLab profile" data-toggle="tooltip"
+								th:href="*{profile}" th:text="|@*{username}|"></a> <span>&middot;</span>
+							<span title="User joined this day" data-toggle="tooltip"
+								th:if="*{joined}"
 								th:text="|Member since ${#temporals.format(member.joined, 'dd. MMM yyyy')}"></span>
 						</h6>
-						<p th:if="*{bio}" th:text="*{bio}" class="card-text">Bio</p>
+						<p title="GitLab user biography" data-toggle="tooltip"
+							th:if="*{bio}" th:text="*{bio}" class="card-text">Bio</p>
 						<hr th:if="${topics.size() > 0}">
 						<h6>
 							<span th:each="topic, i : ${topics}" th:object="${topic}">
-								<a th:href="@{/topics/{path}(path=*{path})}" th:text="*{name}"></a>
+								<a title="Topic profile" data-toggle="tooltip"
+								th:href="@{/topics/{path}(path=*{path})}" th:text="*{name}"></a>
 								<span th:unless="${i.last}">&middot;</span>
 							</span>
 						</h6>
 						<div class="mt-4 text-center">
-							<a th:if="${topics.size() > 0}"
+							<a title="Topics this user is interested in"
+								data-toggle="tooltip" th:if="${topics.size() > 0}"
 								th:href="@{/members/{username}/topics(username=*{username})}"
 								class="btn btn-primary" th:text="|Topics (${topics.size()})|">Topics</a>
 							<span
 								th:unless="${#authentication.name == member.username} or ${#authorization.expression('hasRole(''ROLE_GUEST'')')}">
-								<a
+								<a title="Mattermost direct chat with this user"
+								data-toggle="tooltip"
 								th:href="@{{teamUrl}/messages/@{username}(teamUrl=${teamUrl}, username=*{username})}"
-								class="btn btn-info">Chat</a> <a th:href="|mailto:*{email}|"
-								class="btn btn-info">Mail</a>
+								class="btn btn-info">Chat</a> <a
+								title="Create mail for this user" data-toggle="tooltip"
+								th:href="|mailto:*{email}|" class="btn btn-info">Mail</a>
 							</span>
 						</div>
 					</div>

@@ -21,17 +21,22 @@
 		<table class="table table-hover table-bordered">
 			<thead class="thead-dark">
 				<tr>
-					<th th:text="#{title.name}" class="col-2" />
-					<th th:text="#{title.description}" class="col-8" />
-					<th th:text="#{title.members}" class="col-1 text-center" />
-					<th
+					<th title="Name of topic" data-toggle="tooltip"
+						th:text="#{title.name}" class="col-2" />
+					<th title="Description of topic" data-toggle="tooltip"
+						th:text="#{title.description}" class="col-8" />
+					<th title="Number of interested person in topic"
+						data-toggle="tooltip" th:text="#{title.members}"
+						class="col-1 text-center" />
+					<th title="You are interested in topic" data-toggle="tooltip"
 						th:unless="${isMemberTopics != null || #authorization.expression('hasRole(''ROLE_GUEST'')')}"
-						th:text="#{title.member}" class="col-1 text-center" />
+						th:text="#{title.joined}" class="col-1 text-center" />
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="topic : ${topicsPage.content}" th:object="${topic}">
-					<td class="col-3"><a th:href="@{/topics/{path}(path=*{path})}"
+					<td class="col-3"><a title="Topic profile"
+						data-toggle="tooltip" th:href="@{/topics/{path}(path=*{path})}"
 						th:text="*{name}">Name</a></td>
 					<td th:text="*{description}" class="col-8">Description</td>
 					<td class="col-1 text-center"><span
@@ -45,10 +50,11 @@
 			</tbody>
 		</table>
 		<div
-			th:replace="fragments/pagination :: pagination(${topicsPage}, ${member != null} ? |/members/${member.username}/topics| : '/topics', ${10})"></div>
+			th:replace="fragments/pagination :: pagination(${topicsPage}, ${isMemberTopics != null} ? |/members/${member.username}/topics| : '/topics', ${10})"></div>
 
 		<div th:if="${isMemberTopics}" class="mt-4 text-center">
-			<a th:href="@{/members/{username}(username=${member.username})}"
+			<a title="Return to corresponding member" data-toggle="tooltip"
+				th:href="@{/members/{username}(username=${member.username})}"
 				class="btn btn-primary">Member</a>
 		</div>
 	</div>
