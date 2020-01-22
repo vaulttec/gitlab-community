@@ -38,6 +38,7 @@ public class MemberController {
 
   @GetMapping("/members")
   public String getMembers(Model model, Pageable pageable) {
+    model.addAttribute("community", service.getCommunity());
     if (pageable.getSort().isUnsorted()) {
       pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
           Sort.by(Sort.Direction.ASC, "username"));
@@ -49,6 +50,7 @@ public class MemberController {
 
   @GetMapping("/members/{username}")
   public String getMember(Model model, @PathVariable("username") String username) {
+    model.addAttribute("community", service.getCommunity());
     Member member = service.getMember(username);
     model.addAttribute("member", member);
     model.addAttribute("topics", service.getTopicsForMember(member));
@@ -58,6 +60,7 @@ public class MemberController {
 
   @GetMapping("/topics/{topicPath}/members")
   public String getTopicMembers(Model model, @PathVariable("topicPath") String topicPath, Pageable pageable) {
+    model.addAttribute("community", service.getCommunity());
     if (pageable.getSort().isUnsorted()) {
       pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "path"));
     }

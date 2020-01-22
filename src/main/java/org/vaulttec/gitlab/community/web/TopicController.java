@@ -45,6 +45,7 @@ public class TopicController {
 
   @GetMapping("/topics/new")
   public String newTopic(Model model) {
+    model.addAttribute("community", service.getCommunity());
     model.addAttribute("create", true);
     model.addAttribute("topic", new Topic());
     return "topic-edit";
@@ -52,6 +53,7 @@ public class TopicController {
 
   @PostMapping("/topics")
   public String createTopic(Model model, @Valid Topic topic, BindingResult result, HttpServletRequest request) {
+    model.addAttribute("community", service.getCommunity());
     if (!request.isUserInRole("ROLE_ADMIN")) {
       model.addAttribute("errorMessage", "You're not authorized");
       return "topic";
@@ -76,6 +78,7 @@ public class TopicController {
 
   @GetMapping("/topics")
   public String getTopics(Model model, Pageable pageable, HttpServletRequest request) {
+    model.addAttribute("community", service.getCommunity());
     if (pageable.getSort().isUnsorted()) {
       pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "name"));
     }
@@ -87,6 +90,7 @@ public class TopicController {
 
   @GetMapping("/topics/{topicPath}")
   public String getTopic(Model model, @PathVariable("topicPath") String topicPath, HttpServletRequest request) {
+    model.addAttribute("community", service.getCommunity());
     Topic topic = service.getTopic(topicPath);
     model.addAttribute("topic", topic);
     model.addAttribute("isTopicMember", service.isTopicMember(topic, request.getUserPrincipal().getName()));
@@ -97,6 +101,7 @@ public class TopicController {
 
   @GetMapping("/topics/{topicPath}/edit")
   public String editTopic(Model model, @PathVariable("topicPath") String topicPath) {
+    model.addAttribute("community", service.getCommunity());
     Topic topic = service.getTopic(topicPath);
     model.addAttribute("create", false);
     model.addAttribute("topic", topic);
@@ -147,6 +152,7 @@ public class TopicController {
 
   @GetMapping("/members/{username}/topics")
   public String getMemberTopics(Model model, @PathVariable("username") String username, Pageable pageable) {
+    model.addAttribute("community", service.getCommunity());
     if (pageable.getSort().isUnsorted()) {
       pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "path"));
     }

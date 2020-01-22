@@ -24,7 +24,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.vaulttec.gitlab.community.CommunityService;
-import org.vaulttec.gitlab.community.model.Community;
 
 @Controller
 public class CommunityController {
@@ -34,8 +33,7 @@ public class CommunityController {
 
   @GetMapping("/")
   public String community(Model model, HttpServletRequest request) {
-    Community community = service.getCommunity();
-    model.addAttribute("community", community);
+    model.addAttribute("community", service.getCommunity());
     model.addAttribute("isCommunityMember", service.isMember(request.getUserPrincipal().getName()));
     model.addAttribute("teamUrl", service.getCommunity().getTeam().getUrl());
     model.addAttribute("topics", service.getTopics());
