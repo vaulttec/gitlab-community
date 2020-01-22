@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/default}">
+<head>
+<title>Topic</title>
+</head>
+<body>
+	<div layout:fragment="content" th:unless="${community} == null">
+
+		<div th:if="${errorMessage}"
+			class="alert alert-danger alert-dismissible fade show">
+			<span th:text="${errorMessage}"></span>
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12" th:object="${community}">
+				<div class="card">
+					<div class="card-body text-center">
+						<img title="GitLab group avatar" data-toggle="tooltip"
+							class="avatar rounded-circle"
+							th:src="*{avatar != null && !#authorization.expression('hasRole(''ROLE_GUEST'')')} ? @{*{avatar}}: @{/img/no-image.png}"
+							alt="avatar" />
+						<h4 title="Community name" data-toggle="tooltip" th:text="*{name}"
+							class="card-title">Name</h4>
+						<h6 class="card-subtitle mb-2 text-muted">
+							<a title="Community GitLab group" data-toggle="tooltip"
+								th:href="*{profile}" th:text="|@*{path}|"></a>
+						</h6>
+						<p title="Community description" data-toggle="tooltip"
+							th:text="*{description}" class="card-text">Description</p>
+						<div class="mt-4">
+							<a title="Community members" data-toggle="tooltip"
+								th:if="${members.size() > 0}"
+								th:href="@{/topics/{path}/members}" class="btn btn-primary"
+								th:text="|Members (${members.size()})|">Members</a> <a
+								title="Community topics" data-toggle="tooltip"
+								th:if="${topics.size() > 0}" th:href="@{/topics}"
+								class="btn btn-primary" th:text="|Topics (${topics.size()})|">Topics</a>
+							<span
+								th:unless="${#authorization.expression('hasRole(''ROLE_GUEST'')')}">
+								<a title="Mattermost team of this community"
+								data-toggle="tooltip" th:href="${teamUrl}" class="btn btn-info">Chat</a>
+								<a title="Create mail  for all community members"
+								data-toggle="tooltip"
+								th:with="delimiter=${#httpServletRequest.getHeader('User-Agent').toLowerCase().contains('windows') ? ';' : ','}"
+								th:href="|mailto:${#strings.listJoin(members.![email], delimiter)}|"
+								class="btn btn-info">Mail</a>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

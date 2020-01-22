@@ -17,6 +17,8 @@
  */
 package org.vaulttec.gitlab.community.model;
 
+import java.net.URL;
+
 import org.vaulttec.gitlab.community.gitlab.model.GLGroup;
 import org.vaulttec.gitlab.community.mattermost.model.MMTeam;
 
@@ -35,6 +37,22 @@ public class Community {
 
   public String getPath() {
     return group.getPath();
+  }
+
+  public String getName() {
+    return group.getName();
+  }
+
+  public String getDescription() {
+    return group.getDescription();
+  }
+
+  public URL getAvatar() {
+    return group.getAvatar();
+  }
+
+  public URL getProfile() {
+    return group.getProfile();
   }
 
   public MMTeam getTeam() {

@@ -56,6 +56,10 @@ public class CommunityService {
     return communityRepository.getMembers().size();
   }
 
+  public boolean isMember(String username) {
+    return communityRepository.getMembers().containsKey(username);
+  }
+
   public Collection<Member> getMembers() {
     return communityRepository.getMembers().values();
   }
