@@ -167,13 +167,6 @@ public class CommunityRepository {
         channel = mattermostClient.createChannel(community.getTeam(), path, name, purpose, descriptionWithTopicUri,
             true);
       }
-      if (channel != null) {
-
-        // Store corresponding Mattermost channel ID in newly created GitLab sub-group
-        gitLabClient.setGroupCustomAttribute(group.getId(), GLGroup.CUSTOM_ATTRIBUTE_MATTERMOST_CHANNEL,
-            channel.getId());
-        group.addCustomAttribute(GLGroup.CUSTOM_ATTRIBUTE_MATTERMOST_CHANNEL, channel.getId());
-      }
       return newTopic(group, channel);
     }
     return null;

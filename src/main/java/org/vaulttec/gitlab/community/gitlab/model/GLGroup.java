@@ -28,8 +28,6 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GLGroup {
-  public static final String CUSTOM_ATTRIBUTE_MATTERMOST_CHANNEL = "mattermost_channel";
-
   private String id;
   private String path;
   private String name;
