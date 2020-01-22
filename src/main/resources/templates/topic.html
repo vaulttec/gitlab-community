@@ -60,11 +60,11 @@
 									class="btn btn-primary" th:text="|Members (${members.size()})|">Members</a>
 								<span
 									th:unless="${#authorization.expression('hasRole(''ROLE_GUEST'')')} or !${isTopicMember}">
-									<a title="Topic Mattermost private channel"
+									<a title="Mattermost private channel for this topic"
 									data-toggle="tooltip"
 									th:href="@{{teamUrl}/channels/{path}(teamUrl=${teamUrl}, path=*{path})}"
-									th:text="|Messages (*{messageCount})|" class="btn btn-info">Messages</a>
-									<a title="Create mail  for all topic members"
+									class="btn btn-info">Chat</a> <a
+									title="Create mail  for all topic members"
 									data-toggle="tooltip"
 									th:href="|mailto:${#strings.listJoin(members.![email], ',')}|"
 									class="btn btn-info">Mail</a>
