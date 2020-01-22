@@ -92,7 +92,7 @@ public class CommunityRepository {
   private Map<String, Member> retrieveMembers() {
     LOG.debug("Retrieving all members");
     Map<String, Member> members = new HashMap<String, Member>();
-    List<GLGroupMember> groupMembers = gitLabClient.getGroupMembers(community.getGroup().getId());
+    List<GLGroupMember> groupMembers = gitLabClient.getGroupMembers(community.getId());
     if (groupMembers != null) {
       groupMembers.forEach(groupMember -> {
         if (!communityConfig.getExcludedUsernames().contains(groupMember.getUsername())) {
@@ -126,7 +126,7 @@ public class CommunityRepository {
   private Map<String, Topic> retrieveTopics() {
     LOG.debug("Retrieving all topics");
     Map<String, Topic> topics = new HashMap<String, Topic>();
-    List<GLGroup> groups = gitLabClient.getSubGroups(community.getGroup().getId());
+    List<GLGroup> groups = gitLabClient.getSubGroups(community.getId());
     if (groups != null) {
       groups.forEach(group -> {
         MMChannel channel = mattermostClient.getChannelByName(community.getTeam(), group.getPath());
@@ -147,7 +147,7 @@ public class CommunityRepository {
     String descriptionWithTopicUri = description + GROUP_DESCRIPTION_POSTFIX + topicUri + ")";
 
     // Create GitLab sub-group with description (including topic link)
-    GLGroup group = gitLabClient.createSubGroup(community.getGroup().getId(), path, name, descriptionWithTopicUri);
+    GLGroup group = gitLabClient.createSubGroup(community.getId(), path, name, descriptionWithTopicUri);
     if (group != null) {
 
       // First check if channel was created previously
@@ -240,7 +240,7 @@ public class CommunityRepository {
   private Map<String, Set<Member>> retrieveTopicMembers() {
     LOG.debug("Retrieving members for all topics");
     Map<String, Set<Member>> topicMembers = new HashMap<String, Set<Member>>();
-    List<GLGroup> groups = gitLabClient.getSubGroups(community.getGroup().getId());
+    List<GLGroup> groups = gitLabClient.getSubGroups(community.getId());
     if (groups != null) {
       groups.forEach(group -> {
         Set<Member> members = new HashSet<Member>();

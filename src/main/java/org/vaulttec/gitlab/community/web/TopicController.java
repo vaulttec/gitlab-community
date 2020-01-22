@@ -45,7 +45,6 @@ public class TopicController {
 
   @GetMapping("/topics/new")
   public String newTopic(Model model) {
-    model.addAttribute("communityGroup", service.getCommunity().getGroup());
     model.addAttribute("create", true);
     model.addAttribute("topic", new Topic());
     return "topic-edit";
@@ -53,7 +52,6 @@ public class TopicController {
 
   @PostMapping("/topics")
   public String createTopic(Model model, @Valid Topic topic, BindingResult result, HttpServletRequest request) {
-    model.addAttribute("communityGroup", service.getCommunity().getGroup());
     if (!request.isUserInRole("ROLE_ADMIN")) {
       model.addAttribute("errorMessage", "You're not authorized");
       return "topic";
@@ -81,7 +79,6 @@ public class TopicController {
     if (pageable.getSort().isUnsorted()) {
       pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "name"));
     }
-    model.addAttribute("communityGroup", service.getCommunity().getGroup());
     model.addAttribute("member", service.getMember(request.getUserPrincipal().getName()));
     model.addAttribute("topicsPage", service.getTopicsPaged(pageable));
     model.addAttribute("topicMembers", service.getTopicMembers());
@@ -91,7 +88,6 @@ public class TopicController {
   @GetMapping("/topics/{topicPath}")
   public String getTopic(Model model, @PathVariable("topicPath") String topicPath, HttpServletRequest request) {
     Topic topic = service.getTopic(topicPath);
-    model.addAttribute("communityGroup", service.getCommunity().getGroup());
     model.addAttribute("topic", topic);
     model.addAttribute("isTopicMember", service.isTopicMember(topic, request.getUserPrincipal().getName()));
     model.addAttribute("members", service.getMembersForTopic(topic));
@@ -102,7 +98,6 @@ public class TopicController {
   @GetMapping("/topics/{topicPath}/edit")
   public String editTopic(Model model, @PathVariable("topicPath") String topicPath) {
     Topic topic = service.getTopic(topicPath);
-    model.addAttribute("communityGroup", service.getCommunity().getGroup());
     model.addAttribute("create", false);
     model.addAttribute("topic", topic);
     return "topic-edit";
@@ -155,7 +150,6 @@ public class TopicController {
     if (pageable.getSort().isUnsorted()) {
       pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "path"));
     }
-    model.addAttribute("communityGroup", service.getCommunity().getGroup());
     Member member = service.getMember(username);
     model.addAttribute("member", member);
     if (member == null) {

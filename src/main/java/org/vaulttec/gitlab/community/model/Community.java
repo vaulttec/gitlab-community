@@ -29,8 +29,12 @@ public class Community {
     this.team = team;
   }
 
-  public GLGroup getGroup() {
-    return group;
+  public String getId() {
+    return group.getId();
+  }
+
+  public String getPath() {
+    return group.getPath();
   }
 
   public MMTeam getTeam() {

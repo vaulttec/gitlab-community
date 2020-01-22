@@ -52,10 +52,6 @@ public class CommunityService {
     return community;
   }
 
-  public String getGroupPath() {
-    return community.getGroup().getPath();
-  }
-
   public int getMemberCount() {
     return communityRepository.getMembers().size();
   }

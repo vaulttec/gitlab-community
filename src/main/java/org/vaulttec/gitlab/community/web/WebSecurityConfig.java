@@ -87,7 +87,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
           Map<String, Object> attributes = userAuthority.getAttributes();
           LOG.debug("Mapping authority '{}' {}", userAuthority, userAuthority.getAttributes());
           if (!attributes.containsKey("groups")
-              || !((List<String>) attributes.get("groups")).contains(communityService.getGroupPath())) {
+              || !((List<String>) attributes.get("groups")).contains(communityService.getCommunity().getPath())) {
             authority = new OidcUserAuthority(CommunityPermission.GUEST.getRole(), userAuthority.getIdToken(),
                 userAuthority.getUserInfo());
             LOG.info("Mapped authority of '{}' ({}) to '{}'", attributes.get("nickname"), attributes.get("name"),
