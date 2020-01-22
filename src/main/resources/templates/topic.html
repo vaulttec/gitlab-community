@@ -47,11 +47,11 @@
 								</span>
 							</h6>
 							<div class="mt-4">
-								<input
+								<input type="submit"
 									th:title="${isTopicMember} ? 'Leave this topic' : 'Join this topic'"
 									data-toggle="tooltip"
 									th:if="${!#authorization.expression('hasRole(''ROLE_GUEST'')')}"
-									type="submit" class="btn btn-primary"
+									class="btn btn-primary"
 									th:classappend="${isTopicMember} ? 'btn-danger' : 'btn-success'"
 									th:value="${isTopicMember} ? 'Leave' : 'Join'"> <a
 									title="Topic members" data-toggle="tooltip"
@@ -63,13 +63,12 @@
 									<a title="Mattermost private channel for this topic"
 									data-toggle="tooltip"
 									th:href="@{{teamUrl}/channels/{path}(teamUrl=${teamUrl}, path=*{path})}"
-									class="btn btn-info">Chat</a> <a
-									title="Create mail  for all topic members"
-									data-toggle="tooltip"
-									th:with="delimiter=${#httpServletRequest.getHeader('User-Agent').toLowerCase().contains('windows') ? ';' : ','}"
-									th:href="|mailto:${#strings.listJoin(members.![email], delimiter)}|"
-									class="btn btn-info">Mail</a>
+									class="btn btn-info">Chat</a>
+									<button type="button" data-toggle="modal"
+										data-target="#email-addresses-dialog" class="btn btn-info">Mail</button>
 								</span>
+								<div
+									th:replace="~{fragments/email-addresses-dialog.html :: email-addresses-dialog(${members})}"></div>
 							</div>
 						</div>
 					</div>
