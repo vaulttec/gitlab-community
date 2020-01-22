@@ -1,6 +1,6 @@
 spring:
   application:
-    name: gitlab-report
+    name: Gitlab Community
   main:
     banner-mode: "off"
   data:
