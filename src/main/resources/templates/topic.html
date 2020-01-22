@@ -66,7 +66,8 @@
 									class="btn btn-info">Chat</a> <a
 									title="Create mail  for all topic members"
 									data-toggle="tooltip"
-									th:href="|mailto:${#strings.listJoin(members.![email], ',')}|"
+									th:with="delimiter=${#httpServletRequest.getHeader('User-Agent').toLowerCase().contains('windows') ? ';' : ','}"
+									th:href="|mailto:${#strings.listJoin(members.![email], delimiter)}|"
 									class="btn btn-info">Mail</a>
 								</span>
 							</div>
