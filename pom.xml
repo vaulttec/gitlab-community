@@ -177,6 +177,7 @@
 				<groupId>pl.project13.maven</groupId>
 				<artifactId>git-commit-id-plugin</artifactId>
 				<configuration>
+					<offline>true</offline>
 					<generateGitPropertiesFile>true</generateGitPropertiesFile>
 					<injectAllReactorProjects>true</injectAllReactorProjects>
 				</configuration>
