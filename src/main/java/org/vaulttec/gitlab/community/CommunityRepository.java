@@ -71,7 +71,7 @@ public class CommunityRepository {
     if (team == null) {
       throw new IllegalStateException("No Mattermost team with name '" + communityConfig.getGroupPath() + "' found");
     }
-    this.community = new Community(group, team);
+    this.community = new Community(communityConfig, group, team);
   }
 
   public Community getCommunity() {

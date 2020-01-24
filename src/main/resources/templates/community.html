@@ -8,7 +8,8 @@
 <title>Topic</title>
 </head>
 <body>
-	<div layout:fragment="content" th:unless="${community} == null">
+	<div layout:fragment="content" th:unless="${community} == null"
+		th:object="${community}">
 
 		<div th:if="${errorMessage}"
 			class="alert alert-danger alert-dismissible fade show">
@@ -17,8 +18,16 @@
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
 		</div>
 
+		<div sec:authorize="hasRole('ROLE_GUEST')"
+			th:if="*{spectatorModeMessage}"
+			class="alert alert-warning alert-dismissible fade show">
+			<i class="fa fa-info-circle mr-1"></i> <span
+				th:utext="*{spectatorModeMessage}">Spectator mode</span>
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+
 		<div class="row">
-			<div class="col-md-12" th:object="${community}">
+			<div class="col-md-12">
 				<div class="card">
 					<div class="card-body text-center">
 						<img title="GitLab group avatar" data-toggle="tooltip"
@@ -49,9 +58,9 @@
 							<a title="Community topics" data-toggle="tooltip"
 								th:if="${topics.size() > 0}" th:href="@{/topics}"
 								class="btn btn-primary" th:text="|Topics (${topics.size()})|">Topics</a>
-							<span sec:authorize="!hasRole('ROLE_GUEST')">
-								<a title="Mattermost team of this community"
-								data-toggle="tooltip" th:href="${teamUrl}" class="btn btn-info">Chat</a>
+							<span sec:authorize="!hasRole('ROLE_GUEST')"> <a
+								title="Mattermost team of this community" data-toggle="tooltip"
+								th:href="${teamUrl}" class="btn btn-info">Chat</a>
 								<button data-toggle="modal"
 									data-target="#email-addresses-dialog" class="btn btn-info">Mail</button>
 							</span>

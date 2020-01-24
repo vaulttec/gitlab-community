@@ -43,6 +43,10 @@
 				</div>
 
 				<div class="navbar-nav ml-auto">
+					<a class="nav-item nav-link" th:if="${community.onlineHelpUri}"
+						th:href="${community.onlineHelpUri}" title="Online help"
+						data-toggle="tooltip"><i class="fa fa-question-circle"></i></a>
+
 					<div class="nav-item dropdown"
 						sec:authorize="hasRole('ROLE_ADMIN')">
 						<a class="nav-link dropdown-toggle" href="#"

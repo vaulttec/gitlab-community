@@ -50,6 +50,8 @@ community:
   topic-permission: DEVELOPER
   admin-usernames:
   excluded-usernames: root, ghost, gladmin
+  spectator-mode-message: "<strong>Spectator mode only</strong> - you need access to the GitLab group '{0}' to join!"
+  online-help-uri:
 
 gitlab:
   server-url:

@@ -17,16 +17,21 @@
  */
 package org.vaulttec.gitlab.community.model;
 
+import java.net.URI;
 import java.net.URL;
 
+import org.springframework.util.StringUtils;
+import org.vaulttec.gitlab.community.CommunityConfig;
 import org.vaulttec.gitlab.community.gitlab.model.GLGroup;
 import org.vaulttec.gitlab.community.mattermost.model.MMTeam;
 
 public class Community {
   private final GLGroup group;
   private final MMTeam team;
+  private final CommunityConfig config;
 
-  public Community(GLGroup group, MMTeam team) {
+  public Community(CommunityConfig config, GLGroup group, MMTeam team) {
+    this.config = config;
     this.group = group;
     this.team = team;
   }
@@ -57,6 +62,15 @@ public class Community {
 
   public MMTeam getTeam() {
     return team;
+  }
+
+  public String getSpectatorModeMessage() {
+    return StringUtils.isEmpty(config.getSpectatorModeMessage()) ? null
+        : StringUtils.replace(config.getSpectatorModeMessage(), "{0}", getPath());
+  }
+
+  public URI getOnlineHelpUri() {
+    return config.getOnlineHelpUri();
   }
 
   @Override

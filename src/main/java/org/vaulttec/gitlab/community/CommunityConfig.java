@@ -17,6 +17,7 @@
  */
 package org.vaulttec.gitlab.community;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
@@ -33,6 +34,8 @@ public class CommunityConfig {
   private GLPermission topicPermission;
   private List<String> adminUsernames;
   private List<String> excludedUsernames;
+  private String spectatorModeMessage;
+  private URI onlineHelpUri;
 
   public String getGroupPath() {
     return groupPath;
@@ -66,9 +69,26 @@ public class CommunityConfig {
     this.topicPermission = GLPermission.fromName(topicPermission);
   }
 
+  public String getSpectatorModeMessage() {
+    return spectatorModeMessage;
+  }
+
+  public void setSpectatorModeMessage(String spectatorModeMessage) {
+    this.spectatorModeMessage = spectatorModeMessage;
+  }
+
+  public URI getOnlineHelpUri() {
+    return onlineHelpUri;
+  }
+
+  public void setOnlineHelpUri(URI onlineHelpUri) {
+    this.onlineHelpUri = onlineHelpUri;
+  }
+
   @Override
   public String toString() {
     return "CommunityConfig [groupPath=" + groupPath + ", topicPermission=" + topicPermission + ", adminUsernames="
-        + adminUsernames + "]";
+        + adminUsernames + ", excludedUsernames=" + excludedUsernames + ", spectatorModeMessage=" + spectatorModeMessage
+        + ", onlineHelpUri=" + onlineHelpUri + "]";
   }
 }
