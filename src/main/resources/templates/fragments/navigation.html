@@ -65,11 +65,13 @@
 							th:if="${#authentication.authorities[0].userInfo.claims['picture']}"
 							class="rounded-circle"
 							th:src="${#authentication.authorities[0].userInfo.claims['picture']}"
-							width="30" height="30" alt="avatar" title="Authenticated user"
+							width="30" height="30" alt="avatar"
+							th:title="|Authenticated user '${#authentication.name}'|"
 							data-toggle="tooltip" /> <img
 							th:unless="${#authentication.authorities[0].userInfo.claims['picture']}"
 							class="rounded-circle" th:src="@{/img/no-avatar.png}" width="30"
-							height="30" alt="avatar" title="Authenticated user"
+							height="30" alt="avatar"
+							th:title="|Authenticated user '${#authentication.name}'|"
 							data-toggle="tooltip" />
 						</a>
 						<form class="form-inline" th:action="@{/logout}" method="post">
