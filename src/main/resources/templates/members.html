@@ -14,7 +14,8 @@
 
 		<div th:if="${errorMessage}"
 			class="alert alert-danger alert-dismissible fade show">
-			<span th:text="${errorMessage}"></span>
+			<i class="fa fa-exclamation-triangle mr-1"></i> <span
+				th:text="${errorMessage}"></span>
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
 		</div>
 
