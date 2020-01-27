@@ -119,7 +119,7 @@ public class TopicController {
         attributes.addFlashAttribute("errorMessage", "Topic update failed");
       }
     }
-    return new RedirectView("/topics/" + topicPath);
+    return new RedirectView("/topics/" + topicPath, true);
   }
 
   @PostMapping("/topics/{topicPath}/join")
@@ -133,7 +133,7 @@ public class TopicController {
         attributes.addFlashAttribute("errorMessage", "Joining topic failed");
       }
     }
-    return new RedirectView("/topics/" + topicPath);
+    return new RedirectView("/topics/" + topicPath, true);
   }
 
   @PostMapping("/topics/{topicPath}/leave")
@@ -147,7 +147,7 @@ public class TopicController {
         attributes.addFlashAttribute("errorMessage", "Leaving topic failed");
       }
     }
-    return new RedirectView("/topics/" + topicPath);
+    return new RedirectView("/topics/" + topicPath, true);
   }
 
   @GetMapping("/members/{username}/topics")
