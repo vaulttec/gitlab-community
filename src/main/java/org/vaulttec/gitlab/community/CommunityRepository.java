@@ -45,7 +45,6 @@ import org.vaulttec.gitlab.community.model.Topic;
 
 @Repository
 public class CommunityRepository {
-  public static final String GROUP_DESCRIPTION_POSTFIX = " [(About)](";
   public static final String CHANNEL_PURPOSE_PREFIX = "Community topic '";
 
   private static final Logger LOG = LoggerFactory.getLogger(CommunityRepository.class);
@@ -130,7 +129,7 @@ public class CommunityRepository {
     if (groups != null) {
       groups.forEach(group -> {
         MMChannel channel = mattermostClient.getChannelByName(community.getTeam(), group.getPath());
-        Topic topic = newTopic(group, channel);
+        Topic topic = new Topic(group, channel);
         topics.put(topic.getPath(), topic);
       });
     }
@@ -143,11 +142,9 @@ public class CommunityRepository {
     // Build description with topic link
     ServletUriComponentsBuilder uriBuilder = ServletUriComponentsBuilder.fromCurrentContextPath();
     uriBuilder.removePathExtension();
-    String topicUri = uriBuilder.path("/topics/" + path).build().toUriString();
-    String descriptionWithTopicUri = description + GROUP_DESCRIPTION_POSTFIX + topicUri + ")";
 
     // Create GitLab sub-group with description (including topic link)
-    GLGroup group = gitLabClient.createSubGroup(community.getId(), path, name, descriptionWithTopicUri);
+    GLGroup group = gitLabClient.createSubGroup(community.getId(), path, name, description);
     if (group != null) {
 
       // First check if channel was created previously
@@ -159,28 +156,16 @@ public class CommunityRepository {
         if (channel.getDeleteAt() != null) {
           mattermostClient.restoreChannel(channel);
         }
-        mattermostClient.updateChannel(channel, path, name, purpose, descriptionWithTopicUri);
+        mattermostClient.updateChannel(channel, path, name, purpose, description);
         if (!channel.isPrivate()) {
           mattermostClient.convertChannelIntoPrivate(channel);
         }
       } else {
-        channel = mattermostClient.createChannel(community.getTeam(), path, name, purpose, descriptionWithTopicUri,
-            true);
+        channel = mattermostClient.createChannel(community.getTeam(), path, name, purpose, description, true);
       }
-      return newTopic(group, channel);
+      return new Topic(group, channel);
     }
     return null;
-  }
-
-  private Topic newTopic(GLGroup group, MMChannel channel) {
-    Topic topic = new Topic(group, channel);
-
-    // Remove GitLab group description postfix from topic description
-    int descriptionPostfixIndex = topic.getDescription().indexOf(GROUP_DESCRIPTION_POSTFIX);
-    if (descriptionPostfixIndex >= 0) {
-      topic.setDescription(topic.getDescription().substring(0, descriptionPostfixIndex));
-    }
-    return topic;
   }
 
   public Topic updateTopic(Topic topic, String path, String name, String description) {
@@ -189,20 +174,18 @@ public class CommunityRepository {
     // Build description with topic link
     ServletUriComponentsBuilder uriBuilder = ServletUriComponentsBuilder.fromCurrentContextPath();
     uriBuilder.removePathExtension();
-    String topicUri = uriBuilder.path("/topics/" + path).build().toUriString();
-    String descriptionWithTopicUri = description + GROUP_DESCRIPTION_POSTFIX + topicUri + ")";
 
     // Update GitLab sub-group with description (including topic link)
-    GLGroup group = gitLabClient.updateGroup(topic.getGroupId(), path, name, descriptionWithTopicUri);
+    GLGroup group = gitLabClient.updateGroup(topic.getGroupId(), path, name, description);
     if (group != null) {
 
       // Update Mattermost channel
       MMChannel channel = mattermostClient.getChannelByName(community.getTeam(), path);
       String purpose = CHANNEL_PURPOSE_PREFIX + path + "'";
       if (channel != null) {
-        mattermostClient.updateChannel(channel, path, name, purpose, descriptionWithTopicUri);
+        mattermostClient.updateChannel(channel, path, name, purpose, description);
       }
-      return newTopic(group, channel);
+      return new Topic(group, channel);
     }
     return null;
   }
