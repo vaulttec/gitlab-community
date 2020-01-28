@@ -91,6 +91,10 @@ public class TopicController {
   @GetMapping("/topics/{topicPath}")
   public String getTopic(Model model, @PathVariable("topicPath") String topicPath, HttpServletRequest request) {
     model.addAttribute("community", service.getCommunity());
+    if (request.isUserInRole("ROLE_GUEST")) {
+      model.addAttribute("errorMessage", "You're not authorized");
+      return "topic";
+    }
     Topic topic = service.getTopic(topicPath);
     model.addAttribute("topic", topic);
     model.addAttribute("isTopicMember", service.isTopicMember(topic, request.getUserPrincipal().getName()));
@@ -151,10 +155,18 @@ public class TopicController {
   }
 
   @GetMapping("/members/{username}/topics")
-  public String getMemberTopics(Model model, @PathVariable("username") String username, Pageable pageable) {
+  public String getMemberTopics(Model model, @PathVariable("username") String username, Pageable pageable,
+      HttpServletRequest request) {
     model.addAttribute("community", service.getCommunity());
     if (pageable.getSort().isUnsorted()) {
       pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "path"));
+    }
+    if (request.isUserInRole("ROLE_GUEST")) {
+      model.addAttribute("errorMessage", "You're not authorized");
+      Page<Topic> topicsPage = service.getTopicsPaged(pageable);
+      model.addAttribute("topicsPage", topicsPage);
+      model.addAttribute("topicMembers", service.getTopicMembers());
+      return "topics";
     }
     Member member = service.getMember(username);
     model.addAttribute("member", member);

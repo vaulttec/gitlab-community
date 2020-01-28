@@ -36,9 +36,9 @@
 			</thead>
 			<tbody>
 				<tr th:each="topic : ${topicsPage.content}" th:object="${topic}">
-					<td class="col-3"><a title="Topic profile"
+					<td class="col-3"><a th:text="*{name}" title="Topic profile"
 						data-toggle="tooltip" th:href="@{/topics/{path}(path=*{path})}"
-						th:text="*{name}">Name</a></td>
+						th:class="${#authorization.expression('hasRole(''ROLE_GUEST'')') ? 'btn-link disabled' : ''}">Name</a></td>
 					<td th:text="*{description}" class="col-8">Description</td>
 					<td class="col-1 text-center"><span
 						th:if="${topicMembers.get(topic.path)}"

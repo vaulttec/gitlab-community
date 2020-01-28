@@ -8,7 +8,7 @@
 <title>Topic</title>
 </head>
 <body>
-	<div layout:fragment="content" th:unless="${topic} == null">
+	<div layout:fragment="content">
 
 		<div th:if="${errorMessage}"
 			class="alert alert-danger alert-dismissible fade show">
@@ -17,7 +17,7 @@
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
 		</div>
 
-		<div class="row">
+		<div class="row" th:unless="${topic} == null">
 			<div class="col-md-12" th:object="${topic}">
 				<form
 					th:action="@{/topics/{path}/{action}(path=*{path}, action=${isTopicMember} ? 'leave' : 'join')}"

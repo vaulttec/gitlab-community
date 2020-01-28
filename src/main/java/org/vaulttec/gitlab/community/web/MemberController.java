@@ -17,6 +17,8 @@
  */
 package org.vaulttec.gitlab.community.web;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -49,8 +51,12 @@ public class MemberController {
   }
 
   @GetMapping("/members/{username}")
-  public String getMember(Model model, @PathVariable("username") String username) {
+  public String getMember(Model model, @PathVariable("username") String username, HttpServletRequest request) {
     model.addAttribute("community", service.getCommunity());
+    if (request.isUserInRole("ROLE_GUEST")) {
+      model.addAttribute("errorMessage", "You're not authorized");
+      return "member";
+    }
     Member member = service.getMember(username);
     model.addAttribute("member", member);
     model.addAttribute("topics", service.getTopicsForMember(member));
@@ -59,10 +65,18 @@ public class MemberController {
   }
 
   @GetMapping("/topics/{topicPath}/members")
-  public String getTopicMembers(Model model, @PathVariable("topicPath") String topicPath, Pageable pageable) {
+  public String getTopicMembers(Model model, @PathVariable("topicPath") String topicPath, Pageable pageable,
+      HttpServletRequest request) {
     model.addAttribute("community", service.getCommunity());
     if (pageable.getSort().isUnsorted()) {
       pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "path"));
+    }
+    if (request.isUserInRole("ROLE_GUEST")) {
+      model.addAttribute("errorMessage", "You're not authorized");
+      Page<Member> membersPage = service.getMembersPaged(pageable);
+      model.addAttribute("membersPage", membersPage);
+      model.addAttribute("memberTopics", service.getMemberTopics());
+      return "members";
     }
     Topic topic = service.getTopic(topicPath);
     model.addAttribute("topic", topic);

@@ -33,10 +33,10 @@
 			</thead>
 			<tbody>
 				<tr th:each="member : ${membersPage.content}" th:object="${member}">
-					<td class="col-2"><a title="Profile of this member"
-						data-toggle="tooltip"
+					<td class="col-2"><a th:text="*{username}"
+						title="Profile of this member" data-toggle="tooltip"
 						th:href="@{/members/{username}(username=*{username})}"
-						th:text="*{username}"></a></td>
+						th:class="${#authorization.expression('hasRole(''ROLE_GUEST'')') ? 'btn-link disabled' : ''}"></a></td>
 					<td th:text="*{name}" class="col-8" />
 					<td th:if="${memberTopics}" class="col-1 text-center"><span
 						th:text="${memberTopics.get(member.username).size()}">5</span></td>
