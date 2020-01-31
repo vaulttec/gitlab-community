@@ -36,6 +36,7 @@ public class CommunityConfig {
   private List<String> excludedUsernames;
   private String spectatorModeMessage;
   private URI onlineHelpUri;
+  private URI newIssueUri;
 
   public String getGroupPath() {
     return groupPath;
@@ -85,10 +86,18 @@ public class CommunityConfig {
     this.onlineHelpUri = onlineHelpUri;
   }
 
+  public URI getNewIssueUri() {
+    return newIssueUri;
+  }
+
+  public void setNewIssueUri(URI newIssueUri) {
+    this.newIssueUri = newIssueUri;
+  }
+
   @Override
   public String toString() {
     return "CommunityConfig [groupPath=" + groupPath + ", topicPermission=" + topicPermission + ", adminUsernames="
         + adminUsernames + ", excludedUsernames=" + excludedUsernames + ", spectatorModeMessage=" + spectatorModeMessage
-        + ", onlineHelpUri=" + onlineHelpUri + "]";
+        + ", onlineHelpUri=" + onlineHelpUri + ", newIssueUri=" + newIssueUri + "]";
   }
 }

@@ -24,6 +24,7 @@ community:
   group-path: ${COMMUNITY_GROUP_PATH}
   admin-usernames: ${COMMUNITY_ADMIN_USERNAMES}
   online-help-uri: ${COMMUNITY_ONLINE_HELP_URI}
+  new-issue-uri: ${COMMUNITY_NEW_ISSUE_URI}
 
 gitlab:
   server-url: ${GITLAB_SERVER_URL}
