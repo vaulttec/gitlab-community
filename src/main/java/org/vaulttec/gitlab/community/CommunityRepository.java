@@ -154,7 +154,7 @@ public class CommunityRepository {
       if (channel != null) {
 
         // Restore and update existing Mattermost channel
-        if (channel.getDeleteAt() != null) {
+        if (channel.isDeleted()) {
           mattermostClient.restoreChannel(channel);
         }
         mattermostClient.updateChannel(channel, path, name, purpose, description);

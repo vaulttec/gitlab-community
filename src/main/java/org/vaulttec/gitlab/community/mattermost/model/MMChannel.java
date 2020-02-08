@@ -115,6 +115,10 @@ public class MMChannel {
     this.deleteAt = deleteAt;
   }
 
+  public boolean isDeleted() {
+    return deleteAt != null && deleteAt.getTime() != 0;
+  }
+
   public Date getLastPostAt() {
     return lastPostAt;
   }

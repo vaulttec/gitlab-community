@@ -111,7 +111,7 @@ public class CommunityRefresher {
         String purpose = CommunityRepository.CHANNEL_PURPOSE_PREFIX + topic.getPath() + "'";
 
         // Restore deleted channel
-        if (channel.getDeleteAt() != null) {
+        if (channel.isDeleted()) {
           LOG.info("Refreshing deleted MM channel '{}'", channel.getName());
           mattermostClient.restoreChannel(channel);
         }
