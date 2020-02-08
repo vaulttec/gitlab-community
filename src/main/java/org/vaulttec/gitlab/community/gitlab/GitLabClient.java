@@ -130,7 +130,7 @@ public class GitLabClient extends AbstractRestClient {
     if (!StringUtils.hasText(userId)) {
       throw new IllegalStateException("GitLab user ID required");
     }
-    LOG.info("Adding user '{}' to group '{}' as {}", userId, groupId, permission);
+    LOG.debug("Adding user '{}' to group '{}' as {}", userId, groupId, permission);
     String apiCall = "/groups/{groupId}/members?user_id={userId}&access_level={accessLevel}";
     Map<String, String> uriVariables = createUriVariables("groupId", groupId, "userId", userId, "accessLevel",
         permission.getAccessLevel());
@@ -144,7 +144,7 @@ public class GitLabClient extends AbstractRestClient {
     if (!StringUtils.hasText(userId)) {
       throw new IllegalStateException("GitLab user ID required");
     }
-    LOG.info("Removing user '{}' from group '{}'", userId, groupId);
+    LOG.debug("Removing user '{}' from group '{}'", userId, groupId);
     String apiCall = "/groups/{groupId}/members/{userId}";
     Map<String, String> uriVariables = createUriVariables("groupId", groupId, "userId", userId);
     return makeWriteApiCall(apiCall, HttpMethod.DELETE, uriVariables);

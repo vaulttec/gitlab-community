@@ -88,13 +88,17 @@ public class CommunityRefresher {
           MMUser missingUser = mattermostRepository.getUsers().values().stream()
               .filter(user -> user.getUsername().equals(member.getUsername())).findAny().orElse(null);
           if (missingUser != null) {
+            LOG.info("Refreshing missing MM team member '{}'", missingUser.getUsername());
             mattermostClient.addMemberToTeam(team, missingUser);
           }
         }
       });
 
       // Remove all users in Mattermost team which are not community members
-      teamUsers.values().forEach(user -> mattermostClient.removeMemberFromTeam(team, user));
+      teamUsers.values().forEach(user -> {
+        LOG.info("Refreshing obsolete MM team member '{}'", user.getUsername());
+        mattermostClient.removeMemberFromTeam(team, user);
+      });
     }
   }
 
@@ -108,12 +112,14 @@ public class CommunityRefresher {
 
         // Restore deleted channel
         if (channel.getDeleteAt() != null) {
+          LOG.info("Refreshing deleted MM channel '{}'", channel.getName());
           mattermostClient.restoreChannel(channel);
         }
 
         // Restore channel name, description and header
         if (!topic.getPath().equals(channel.getName()) || !topic.getName().equals(channel.getDisplayName())
             || !purpose.equals(channel.getPurpose()) || !topic.getDescription().equals(channel.getHeader())) {
+          LOG.info("Refreshing modified MM channel '{}'", channel.getName());
           mattermostClient.updateChannel(channel, topic.getPath(), topic.getName(), purpose, topic.getDescription());
         }
         // Restore left channel members
@@ -127,12 +133,15 @@ public class CommunityRefresher {
           if (currentMember.isPresent()) {
             currentMembers.remove(currentMember.get());
           } else {
+            LOG.info("Refreshing missing member '{}' in MM channel '{}'", requiredUser.getUsername(),
+                channel.getName());
             mattermostClient.addMemberToChannel(channel, requiredUser);
           }
         });
 
         // Remove illegal channel members
         currentMembers.forEach(member -> {
+          LOG.info("Refreshing invalid member {} in MM channel '{}'", member.getUserId(), channel.getName());
           mattermostClient.removeMemberFromChannel(channel, member.getUserId());
         });
       }

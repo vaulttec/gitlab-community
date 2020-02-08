@@ -98,6 +98,7 @@ public class CommunityRepository {
           GLUser user = gitLabRepository.getUsers().get(groupMember.getUsername());
           if (user != null) {
             if (!user.hasCustomAttribute(GLUser.CUSTOM_ATTRIBUTE_JOINED)) {
+              LOG.info("New member '{}' joined", user.getUsername());
               String today = LocalDate.now().format(GLUser.JOINED_FORMATTER);
               gitLabClient.setUserCustomAttribute(user.getId(), GLUser.CUSTOM_ATTRIBUTE_JOINED, today);
               user.addCustomAttribute(GLUser.CUSTOM_ATTRIBUTE_JOINED, today);
@@ -137,7 +138,7 @@ public class CommunityRepository {
   }
 
   public Topic createTopic(String path, String name, String description) {
-    LOG.debug("Creating new topic: path={}, name={}", path, name);
+    LOG.info("Creating new topic: path={}, name={}", path, name);
 
     // Build description with topic link
     ServletUriComponentsBuilder uriBuilder = ServletUriComponentsBuilder.fromCurrentContextPath();
@@ -169,7 +170,7 @@ public class CommunityRepository {
   }
 
   public Topic updateTopic(Topic topic, String path, String name, String description) {
-    LOG.debug("Updating topic: path={}, name={}, description={}", path, name, description);
+    LOG.info("Updating topic: path={}, name={}, description={}", path, name, description);
 
     // Build description with topic link
     ServletUriComponentsBuilder uriBuilder = ServletUriComponentsBuilder.fromCurrentContextPath();
@@ -191,7 +192,7 @@ public class CommunityRepository {
   }
 
   public boolean deleteTopic(Topic topic) {
-    LOG.debug("Deleting topic {}", topic);
+    LOG.info("Deleting topic {}", topic);
     if (gitLabClient.deleteGroup(topic.getGroupId())) {
       MMChannel channel = mattermostClient.getChannelByName(community.getTeam(), topic.getPath());
       if (channel != null) {
@@ -238,7 +239,7 @@ public class CommunityRepository {
   }
 
   public boolean addTopicMember(Topic topic, Member member) {
-    LOG.debug("Adding member '{}' to topic '{}'", member.getUsername(), topic.getPath());
+    LOG.info("Adding member '{}' to topic '{}'", member.getUsername(), topic.getPath());
     if (gitLabClient.addMemberToGroup(topic.getGroupId(), member.getUserId(), communityConfig.getTopicPermission())) {
       MMChannel channel = mattermostClient.getChannelByName(community.getTeam(), topic.getPath());
       MMUser user = mattermostClient.getUserByUsername(member.getUsername());
@@ -251,7 +252,7 @@ public class CommunityRepository {
   }
 
   public boolean removeTopicMember(Topic topic, Member member) {
-    LOG.debug("Removing member '{}' from topic '{}'", member.getUsername(), topic.getPath());
+    LOG.info("Removing member '{}' from topic '{}'", member.getUsername(), topic.getPath());
     if (gitLabClient.removeMemberFromGroup(topic.getGroupId(), member.getUserId())) {
       MMChannel channel = mattermostClient.getChannelByName(community.getTeam(), topic.getPath());
       MMUser user = mattermostClient.getUserByUsername(member.getUsername());
