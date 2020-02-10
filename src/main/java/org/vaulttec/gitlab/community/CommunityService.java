@@ -88,6 +88,9 @@ public class CommunityService {
           case "name":
             result = member1.getName().compareTo(member2.getName());
             break;
+          case "joined":
+            result = member1.getJoined().compareTo(member2.getJoined());
+            break;
           }
           if (order.isDescending()) {
             result = -result;
@@ -96,7 +99,7 @@ public class CommunityService {
         return result;
       }).skip(startItem).limit(pageSize).collect(Collectors.toList());
     }
-    return new PageImpl<Member>(sortedMembers, PageRequest.of(currentPage, pageSize), members.size());
+    return new PageImpl<Member>(sortedMembers, PageRequest.of(currentPage, pageSize, sort), members.size());
   }
 
   public Member getMember(String username) {
@@ -153,7 +156,7 @@ public class CommunityService {
         return result;
       }).skip(startItem).limit(pageSize).collect(Collectors.toList());
     }
-    return new PageImpl<Topic>(sortedTopics, PageRequest.of(currentPage, pageSize), topics.size());
+    return new PageImpl<Topic>(sortedTopics, PageRequest.of(currentPage, pageSize, sort), topics.size());
   }
 
   public Topic getTopic(String path) {

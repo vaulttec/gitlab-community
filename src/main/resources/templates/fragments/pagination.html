@@ -9,32 +9,32 @@
 					th:classappend="!${page.isFirst()} ? '' : 'disabled'"><a
 					title="First Page" data-toggle="tooltip" class="page-link"
 					th:if="${!page.isFirst()}"
-					th:href="@{${mapping}(page=${0}, size=${page.size}, sort=${page.getSort()})}">&#060;&#060;</a>
+					th:href="@{${mapping}(page=${0}, size=${page.size}, sort=${@pageHelper.sortProperties(page)})}">&#060;&#060;</a>
 					<a class="page-link" th:if="${page.isFirst()}">&#060;&#060;</a></li>
 				<li class="page-item"
 					th:classappend="${page.hasPrevious()} ? '' : 'disabled'"><a
 					title="Previous Page" data-toggle="tooltip" class="page-link"
 					th:if="${page.hasPrevious()}"
-					th:href="@{${mapping}(page=${page.number - 1}, size=${page.size}, sort=${page.getSort()})}">&#060;</a>
+					th:href="@{${mapping}(page=${page.number - 1}, size=${page.size}, sort=${@pageHelper.sortProperties(page)})}">&#060;</a>
 					<a class="page-link" th:if="${!page.hasPrevious()}">&#060;</a></li>
 				<li class="page-item" th:if="${i > 0 && i <= page.totalPages}"
 					th:classappend="${i == (page.number + 1)} ? 'active' : ''"
 					th:each="i : ${#numbers.sequence(page.number - buttonPages, page.number + buttonPages)}">
 					<a class="page-link" th:text="${i}" th:title="${'Page '+ i}"
 					data-toggle="tooltip"
-					th:href="@{${mapping}(page=${i - 1}, size=${page.size}, sort=${page.getSort()})}">[[${i}]]</a>
+					th:href="@{${mapping}(page=${i - 1}, size=${page.size}, sort=${@pageHelper.sortProperties(page)})}">[[${i}]]</a>
 				</li>
 				<li class="page-item"
 					th:classappend="${page.hasNext()} ? '' : 'disabled'"><a
 					class="page-link" title="Next Page" data-toggle="tooltip"
 					th:if="${page.hasNext()}"
-					th:href="@{${mapping}(page=${page.number + 1}, size=${page.size}, sort=${page.getSort()})}">&#062;</a>
+					th:href="@{${mapping}(page=${page.number + 1}, size=${page.size}, sort=${@pageHelper.sortProperties(page)})}">&#062;</a>
 					<a class="page-link" th:if="${!page.hasNext()}">&#062;</a></li>
 				<li class="page-item"
 					th:classappend="${!page.isLast()} ? '' : 'disabled'"><a
 					class="page-link" title="Last Page" data-toggle="tooltip"
 					th:if="${!page.isLast()}"
-					th:href="@{${mapping}(page=${page.totalPages - 1}, size=${page.size}, sort=${page.getSort()})}">&#062;&#062;</a>
+					th:href="@{${mapping}(page=${page.totalPages - 1}, size=${page.size}, sort=${@pageHelper.sortProperties(page)})}">&#062;&#062;</a>
 					<a class="page-link" th:if="${page.isLast()}">&#062;&#062;</a></li>
 			</ul>
 		</nav>
