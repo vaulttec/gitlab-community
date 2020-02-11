@@ -43,7 +43,7 @@ public class MemberController {
     model.addAttribute("community", service.getCommunity());
     if (pageable.getSort().isUnsorted()) {
       pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
-          Sort.by(Sort.Direction.ASC, "username"));
+          Sort.by(Sort.Direction.ASC, "name"));
     }
     model.addAttribute("membersPage", service.getMembersPaged(pageable));
     model.addAttribute("memberTopics", service.getMemberTopics());

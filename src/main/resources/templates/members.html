@@ -22,10 +22,10 @@
 		<table class="table table-hover table-bordered">
 			<thead class="thead-dark">
 				<tr>
-					<th title="Username of member" data-toggle="tooltip"
-						th:text="#{title.username}" class="col-2" />
 					<th title="Full name of member" data-toggle="tooltip"
 						th:text="#{title.name}" class="col-6" />
+					<th title="Member since" data-toggle="tooltip"
+						th:text="#{title.joined}" class="col-2" />
 					<th title="Number of topics member is interested in"
 						data-toggle="tooltip" th:if="${memberTopics}"
 						th:text="#{title.topics}" class="col-1 text-center" />
@@ -33,11 +33,10 @@
 			</thead>
 			<tbody>
 				<tr th:each="member : ${membersPage.content}" th:object="${member}">
-					<td class="col-2"><a th:text="*{username}"
+					<td class="col-8"><a th:text="*{name}"
 						title="Profile of this member" data-toggle="tooltip"
-						th:href="@{/members/{username}(username=*{username})}"
-						th:class="${#authorization.expression('hasRole(''ROLE_GUEST'')') ? 'btn-link disabled' : ''}"></a></td>
-					<td th:text="*{name}" class="col-8" />
+						th:href="@{/members/{username}(username=*{username})}"></a></td>
+					<td th:text="*{joined}">2020-01-01</td>
 					<td th:if="${memberTopics}" class="col-1 text-center"><span
 						th:text="${memberTopics.get(member.username).size()}">5</span></td>
 				</tr>
