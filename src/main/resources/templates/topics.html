@@ -51,7 +51,7 @@
 			</tbody>
 		</table>
 		<div
-			th:replace="fragments/pagination :: pagination(${topicsPage}, ${isMemberTopics != null} ? |/members/${member.username}/topics| : '/topics', ${10})"></div>
+			th:replace="fragments/pagination :: pagination(${topicsPage}, ${isMemberTopics != null} ? |/members/${member.username}/topics| : '/topics', ${community.maxPageButtons})"></div>
 
 		<div th:if="${isMemberTopics}" class="mt-4 text-center">
 			<a title="Return to corresponding member" data-toggle="tooltip"

@@ -77,6 +77,10 @@ public class Community {
     return config.getNewIssueUri();
   }
 
+  public int getMaxPageButtons() {
+    return config.getMaxPageButtons();
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;

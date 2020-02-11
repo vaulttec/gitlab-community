@@ -37,6 +37,7 @@ public class CommunityConfig {
   private String spectatorModeMessage;
   private URI onlineHelpUri;
   private URI newIssueUri;
+  private int maxPageButtons;
 
   public String getGroupPath() {
     return groupPath;
@@ -94,10 +95,19 @@ public class CommunityConfig {
     this.newIssueUri = newIssueUri;
   }
 
+  public int getMaxPageButtons() {
+    return maxPageButtons;
+  }
+
+  public void setMaxPageButtons(int maxPageButtons) {
+    this.maxPageButtons = maxPageButtons;
+  }
+
   @Override
   public String toString() {
     return "CommunityConfig [groupPath=" + groupPath + ", topicPermission=" + topicPermission + ", adminUsernames="
         + adminUsernames + ", excludedUsernames=" + excludedUsernames + ", spectatorModeMessage=" + spectatorModeMessage
-        + ", onlineHelpUri=" + onlineHelpUri + ", newIssueUri=" + newIssueUri + "]";
+        + ", onlineHelpUri=" + onlineHelpUri + ", newIssueUri=" + newIssueUri + ", maxPageButtons=" + maxPageButtons
+        + "]";
   }
 }

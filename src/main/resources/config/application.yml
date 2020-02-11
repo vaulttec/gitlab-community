@@ -53,6 +53,7 @@ community:
   spectator-mode-message: "<strong>Spectator mode only</strong> - you need access to the GitLab group '{0}' to view all information!"
   online-help-uri:
   new-issue-uri:
+  max-page-buttons: 5
 
 gitlab:
   server-url:
