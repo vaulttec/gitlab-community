@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="https://www.thymeleaf.org">
 <body>
-	<div th:fragment="pagination(page, mapping, buttonPages)">
+	<div th:fragment="pagination(page, mapping, maxPageButtons)">
 		<nav th:if="${page.totalPages > 0}">
 			<ul class="pagination justify-content-center">
 				<li class="page-item"
@@ -19,7 +19,7 @@
 					<a class="page-link" th:if="${!page.hasPrevious()}">&#060;</a></li>
 				<li class="page-item" th:if="${i > 0 && i <= page.totalPages}"
 					th:classappend="${i == (page.number + 1)} ? 'active' : ''"
-					th:each="i : ${#numbers.sequence(page.number - buttonPages, page.number + buttonPages)}">
+					th:each="i : ${@pageHelper.pageButtonSequence(page, maxPageButtons)}">
 					<a class="page-link" th:text="${i}" th:title="${'Page '+ i}"
 					data-toggle="tooltip"
 					th:href="@{${mapping}(page=${i - 1}, size=${page.size}, sort=${@pageHelper.sortProperties(page)})}">[[${i}]]</a>

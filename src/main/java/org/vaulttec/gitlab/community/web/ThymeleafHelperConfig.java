@@ -19,6 +19,8 @@ package org.vaulttec.gitlab.community.web;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +32,9 @@ public class ThymeleafHelperConfig {
 
   @Bean(name = "pageHelper")
   public PageHelper pageHelper() {
+
     return new PageHelper() {
+
       public String sortProperties(Page<?> page) {
         StringBuilder builder = new StringBuilder();
         if (page.getSort() != null) {
@@ -41,6 +45,19 @@ public class ThymeleafHelperConfig {
           }
         }
         return builder.toString();
+      }
+
+      public Integer[] pageButtonSequence(Page<?> page, Integer maxPageButtons) {
+        int start = Math.max(0,
+            (page.getTotalPages() - page.getNumber()) <= maxPageButtons / 2 ? page.getTotalPages() - maxPageButtons + 1
+                : page.getNumber() - maxPageButtons / 2 + 1);
+        int end = Math.min(page.getNumber() <= maxPageButtons / 2 ? maxPageButtons : start + maxPageButtons - 1,
+            page.getTotalPages());
+        List<Integer> buttonPages = new ArrayList<Integer>();
+        for (int i = start; i <= end; i++) {
+          buttonPages.add(Integer.valueOf(i));
+        }
+        return buttonPages.toArray(new Integer[buttonPages.size()]);
       }
 
       private String encodeURLComponent(String component) {
@@ -55,5 +72,6 @@ public class ThymeleafHelperConfig {
 
   public interface PageHelper {
     String sortProperties(Page<?> page);
+    Integer[] pageButtonSequence(Page<?> page, Integer maxButtonPages);
   }
 }
