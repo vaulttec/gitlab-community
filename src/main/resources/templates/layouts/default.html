@@ -3,21 +3,23 @@
 	xmlns:th="https://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">GitLab
-	Community</title>
+<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE"
+	th:text="${community.name}">GitLab Community</title>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
-<link rel="stylesheet" th:href="@{/webjars/font-awesome/css/font-awesome.min.css}">
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet"
+	th:href="@{/webjars/font-awesome/css/font-awesome.min.css}">
 <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 
 <body>
-  <div th:replace="~{fragments/navigation.html :: navigation}"></div>
+	<div th:replace="~{fragments/navigation.html :: navigation}"></div>
 
 	<div class="container">
 		<div class="content ">
@@ -25,9 +27,9 @@
 		</div>
 	</div>
 
-  <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-  <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-  <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 
 	<th:block layout:fragment="scripts">
 	</th:block>
