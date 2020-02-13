@@ -63,7 +63,8 @@ public class GLGroup {
   }
 
   public String getDescription() {
-    return description;
+    int skipIndex = description.indexOf("<!--cut here-->");
+    return skipIndex < 0 ? description : description.substring(0, skipIndex);
   }
 
   public void setDescription(String description) {
